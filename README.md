@@ -1,5 +1,6 @@
 # 시작 1일차 
-1. Node 설치
+> Node 설치
 http://nodejs.org/ko/download/
 
-2. 
+> Npx 설치
+명령어 : npm install npx -g 
