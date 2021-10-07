@@ -12,11 +12,11 @@
     2. 설정파일 생성
     파일명: .prettierrc
     파일내용: 
-        ---
-            {
-            "trailingComma": "es5",
-            "tabWidth": 4,
-            "semi": false,
-            "singleQuote": true
-            }
-        ---
+    ---
+        {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "semi": false,
+        "singleQuote": true
+        }
+    
