@@ -8,10 +8,9 @@
 4. vsCode 설치 : https://code.visualstudio.com/download
 
 5. vsc Extenstion 설치 
-    1. prettier : https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-    2. 설정파일 생성
-    파일명: .prettierrc
-
+    1. prettier : https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode  
+    설정파일 생성  
+    파일명: .prettierrc  
         파일내용: 
         
             {  
@@ -21,4 +20,5 @@
                 "singleQuote": true  
             }
     
-
+6. 수행한다.  
+    
