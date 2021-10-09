@@ -12,7 +12,7 @@ function App() {
     return (
         <div className="row-wrapper">
         <div className="name">
-          <span>계산기</span>
+          <span>계산기1</span>
         </div>
         <input className="display" />
         <div className="row">
