@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
     const [firstState, setFirstState] = useState<string>()
-    let a = "오니?"
+    let a = "오니2?"
     useEffect(() => {
         setFirstState('가냐')
     }, [])
