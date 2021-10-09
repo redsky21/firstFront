@@ -70,3 +70,10 @@
 
 9. 크롬에 Url 로 테스트 해본다.  
 ex) https://redsky21.netlify.app/
+
+# 시작 4일차 
+## 자쓰 study
+1. 변수 상수  
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Grammar_and_types  
+2. 함수  
+http://tcpschool.com/javascript/js_function_basic
