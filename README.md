@@ -76,3 +76,16 @@ ex) https://redsky21.netlify.app/
 https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Grammar_and_types  
 2. 함수  
 http://tcpschool.com/javascript/js_function_basic
+
+
+# 4일차
+## meterial ui 추가
+1. 이제 Git 의 Branch를 일자별로 따기로 하자.  
+VS Code 에서 ctrl+shift+p 누르고 create branch  
+일자 입력 !
+2. material ui url : https://mui.com/  
+Library 추가
+
+        npm install @mui/material
+    
+
