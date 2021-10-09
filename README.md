@@ -27,7 +27,7 @@
 
 
 # 시작 3일차 
-* 세상으로 나가 보자!
+## 세상으로 나가 보자!
 
 1. netlify 배포용 branch를 따로 만들자.  
     1. VS code에서 ctrl+p 를 누른다.
@@ -71,7 +71,6 @@
 9. 크롬에 Url 로 테스트 해본다.  
 ex) https://redsky21.netlify.app/
 
-# 시작 4일차 
 ## 자쓰 study
 1. 변수 상수  
 https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Grammar_and_types  
