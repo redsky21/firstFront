@@ -10,12 +10,43 @@ function App() {
     }, [])
 
     return (
-        <div className="App">
-            <h1>사냥을 시작해볼까</h1>
-            <h2>{a}</h2>
-            <h2>{firstState}</h2>
-            <button onClick={()=>{setFirstState('바이')}}>안녕</button>
+        <div className="row-wrapper">
+        <div className="name">
+          <span>계산기</span>
         </div>
+        <input className="display" />
+        <div className="row">
+          <button >9</button>
+          <button >8</button>
+          <button >7</button>
+          <button >*</button>
+        </div>
+        <div className="row">
+          <button >6</button>
+          <button >5</button>
+          <button >4</button>
+          <button >+</button>
+        </div>
+        <div className="row">
+          <button >3</button>
+          <button >2</button>
+          <button >1</button>
+          <button >-</button>
+        </div>
+        <div className="row">
+          <button >0</button>
+          <button >.</button>
+          <button >=</button>
+          <button >/</button>
+        </div>
+        <div>
+          <button
+            className="clear-button"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
     )
 }
 
