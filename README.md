@@ -68,4 +68,5 @@
 8. 원하는 이름으로 바꾸고 Save 클릭
 ![캡처](/public/md/netlify_setup5.png)
 
-9. 크롬에 Url 로 테스트 해본다.
+9. 크롬에 Url 로 테스트 해본다.  
+ex) https://redsky21.netlify.app/
