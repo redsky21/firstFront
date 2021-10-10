@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Button } from '@mui/material';
 
 function App() {
   const [abc, setAbc] = useState('화이팅');
@@ -159,7 +160,6 @@ function App() {
       <div className="name">
         <span>계산기1</span>
       </div>
-      {/* <input className="display" /> */}
       firstString: {firstString}
       <br />
       firstNumber: {firstNumber}
@@ -172,33 +172,33 @@ function App() {
       <br />
       resultNumber: {resultNumber}
       <div className="row">
-        <button onClick={numberButtonClick9}>9</button>
-        <button onClick={numberButtonClick8}>8</button>
-        <button onClick={numberButtonClick7}>7</button>
-        <button>*</button>
+        <Button onClick={numberButtonClick9}>9</Button>
+        <Button onClick={numberButtonClick8}>8</Button>
+        <Button onClick={numberButtonClick7}>7</Button>
+        <Button>*</Button>
       </div>
       <div className="row">
-        <button onClick={numberButtonClick6}>6</button>
-        <button onClick={numberButtonClick5}>5</button>
-        <button onClick={numberButtonClick4}>4</button>
-        <button onClick={numberButtonClickPlus}>+</button>
+        <Button onClick={numberButtonClick6}>6</Button>
+        <Button onClick={numberButtonClick5}>5</Button>
+        <Button onClick={numberButtonClick4}>4</Button>
+        <Button onClick={numberButtonClickPlus}>+</Button>
       </div>
       <div className="row">
-        <button onClick={numberButtonClick3}>3</button>
-        <button onClick={numberButtonClick2}>2</button>
-        <button onClick={numberButtonClick1}>1</button>
-        <button onClick={numberButtonClickMinus}>-</button>
+        <Button onClick={numberButtonClick3}>3</Button>
+        <Button onClick={numberButtonClick2}>2</Button>
+        <Button onClick={numberButtonClick1}>1</Button>
+        <Button onClick={numberButtonClickMinus}>-</Button>
       </div>
       <div className="row">
-        <button onClick={numberButtonClick}>0</button>
-        <button onClick={numberButtonClickDot}>.</button>
-        <button onClick={numberButtonClickEqal}>=</button>
-        <button onClick={numberButtonClick1}>/</button>
+        <Button onClick={numberButtonClick}>0</Button>
+        <Button onClick={numberButtonClickDot}>.</Button>
+        <Button onClick={numberButtonClickEqal}>=</Button>
+        <Button onClick={numberButtonClick1}>/</Button>
       </div>
       <div>
-        <button className="clear-button" onClick={handleClear}>
+        <Button className="clear-Button" onClick={handleClear}>
           Clear
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -86,6 +86,7 @@ VS Code 에서 ctrl+shift+p 누르고 create branch
 2. material ui url : https://mui.com/  
 Library 추가
 
-        npm install @mui/material
+        yarn add @mui/material  
+        yarn add @emotion/react @emotion/styled
     
 
