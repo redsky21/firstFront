@@ -12,13 +12,7 @@
     1.  prettier : https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode  
         설정파일 생성  
         파일명: .prettierrc  
-         파일내용:
-                {
-                    "trailingComma": "es5",
-                    "tabWidth": 4,
-                    "semi": false,
-                    "singleQuote": true
-                }
+         파일내용: { "trailingComma": "es5", "tabWidth": 4, "semi": false, "singleQuote": true }
 6.  수행한다.
 
         npm start
@@ -83,4 +77,7 @@
 
 ## mobx 추가
 
-        yarn add mobx-react-lite
+https://www.howdy-mj.me/mobx/mobx6-intro/
+
+         yarn add mobx mobx-react
+
