@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 function App() {
   const [abc, setAbc] = useState('화이팅');
@@ -155,6 +155,19 @@ function App() {
     setResultNumber(0);
   };
 
+  const intButtonClick =(event:React.MouseEvent<HTMLButtonElement, MouseEvent>,param:number)=>{
+      console.log('999');
+  }
+
+  const hanBangButton = ()=>{
+      let buttonGroup=[];
+      for(let inx =0; inx < 10 ;inx++ ){
+        buttonGroup.push(<Button>{inx}</Button>)
+      }
+      return buttonGroup;
+    
+  }
+
   return (
     <div className="row-wrapper">
       <div className="name">
@@ -171,8 +184,14 @@ function App() {
       secondNumber: {secondNumber}
       <br />
       resultNumber: {resultNumber}
+      <div><TextField
+  label="Result"
+  variant="standard"
+  color="warning"
+  value= {resultNumber}
+/></div>
       <div className="row">
-        <Button onClick={numberButtonClick9}>9</Button>
+        <Button onClick={(event)=>intButtonClick(event,9)}>9</Button>
         <Button onClick={numberButtonClick8}>8</Button>
         <Button onClick={numberButtonClick7}>7</Button>
         <Button>*</Button>
@@ -194,12 +213,14 @@ function App() {
         <Button onClick={numberButtonClickDot}>.</Button>
         <Button onClick={numberButtonClickEqal}>=</Button>
         <Button onClick={numberButtonClick1}>/</Button>
+        <div>{hanBangButton()}</div>
       </div>
       <div>
         <Button className="clear-Button" onClick={handleClear}>
           Clear
         </Button>
       </div>
+      
     </div>
   );
 }
