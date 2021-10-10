@@ -161,12 +161,18 @@ function App() {
 
   const hanBangButton = ()=>{
       let buttonGroup=[];
+    let aaa='1'
       for(let inx =0; inx < 10 ;inx++ ){
         buttonGroup.push(<Button>{inx}</Button>)
       }
       return buttonGroup;
     
   }
+  const hanBangButton2 = ()=>{
+    let buttonGroup=[1,2,3,4,5,6,7,8,9,0];
+    return buttonGroup.map((inx)=>{return <Button>{inx}</Button>})
+  
+}
 
   return (
     <div className="row-wrapper">
@@ -214,6 +220,7 @@ function App() {
         <Button onClick={numberButtonClickEqal}>=</Button>
         <Button onClick={numberButtonClick1}>/</Button>
         <div>{hanBangButton()}</div>
+        <div>{hanBangButton2()}</div>
       </div>
       <div>
         <Button className="clear-Button" onClick={handleClear}>
