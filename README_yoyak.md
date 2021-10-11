@@ -1,4 +1,6 @@
-# React 구조.
+# 미연아 개발하자!
+
+## React 구조.
 
 return 이라고 하는곳에 html tag를 넣으면 끝!
 
@@ -16,7 +18,7 @@ return 이라고 하는곳에 html tag를 넣으면 끝!
 
              export default App;
 
-# React State
+## React State
 
 1.  선언방법
 
@@ -96,7 +98,7 @@ return 이라고 하는곳에 html tag를 넣으면 끝!
          3
          ---------------------------------------------------------------------- 3
 
-# 함수 (Function)
+## 함수 (Function)
 
 1.  원리
 
@@ -120,7 +122,7 @@ ex)
                return '완료!!';
          }
 
-# 조건 (if)
+## 조건 (if)
 
 1.  사용방법
 
@@ -146,7 +148,7 @@ ex)
             if ( a === '가나다' ) // a 가 가나다 일 때
             if ( a !== '가나다' ) // a 가 가나다 아닐때
 
-# 대망의 loop
+## Loop
 
 1.  for loop 사용 방법
 
@@ -169,7 +171,7 @@ ex)
              console.log(miyeon);
          });
 
-## 보너스!! 자쓰에서 윤책임님을 위해 하나 보너스를 줬다.
+### 보너스!! 자쓰에서 윤책임님을 위해 하나 보너스를 줬다.
 
 map의 두번째 인자값은 자동빵으로 몇번째 줄인지 index를 준다.
 
@@ -177,3 +179,149 @@ map의 두번째 인자값은 자동빵으로 몇번째 줄인지 index를 준�
          arr.map((miyeon,inx) => {
              console.log(inx);
          });
+
+map의 파라미터 (miyeon) 은 알아서 할당 된다.
+
+         const ManagementRowData3 = [
+      {
+        System: '법인카드',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '법인카드',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+    ];
+    const MonitoringRowData2 = [
+      {
+        No: '1',
+        Subsidiary: 'LGEKR',
+        'Person in charge': '김시내 sinae3.kim',
+        Status: 'Confirmed',
+        Comment: 'CFO Role 추가 및 기존 1개 전결을 금액으로 분리하여 1개 전결을 추가완료',
+        'Confirm Date': '2021-07-22',
+        Hold: 'N',
+        'Hold Date': '',
+      },
+      {
+        No: '2',
+        Subsidiary: 'LGECH',
+        'Person in charge': '장**',
+        Status: 'Pending',
+        Comment: '',
+        'Confirm Date': '',
+        Hold: '',
+        'Hold Date': '',
+      },
+      {
+        No: '3',
+        Subsidiary: 'LGEUS',
+        'Person in charge': 'James**',
+        Status: 'Rejected',
+        Comment: 'US 법인 예외 처리 요청',
+        'Confirm Date': '2021-07-22',
+        Hold: '',
+        'Hold Date': '',
+      },
+      {
+        No: '4',
+        Subsidiary: 'LGEKR',
+        'Person in charge': '김시내 sinae3.kim',
+        Status: 'Confirmed',
+        Comment: 'CFO Role 추가 및 기존 1개 전결을 금액으로 분리하여 1개 전결을 추가완료',
+        'Confirm Date': '2021-07-22',
+        Hold: 'N',
+        'Hold Date': '',
+      },
+    ];
+    MonitoringRowData2.map((miyeon, index) => {
+      console.log(miyeon.No);
+    });
