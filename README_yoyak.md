@@ -138,5 +138,42 @@ ex)
 
     1.  sting 조건
 
-            if ( a === '가나다' ) // a 가 가나다 일 때!
+             if ( a === '가나다' ) // a 가 가나다 일 때
+             if ( a !== '가나다' ) // a 가 가나다 아닐때
+
+    2.  number 조건
+
+            if ( a === '가나다' ) // a 가 가나다 일 때
             if ( a !== '가나다' ) // a 가 가나다 아닐때
+
+# 대망의 loop
+
+1.  for loop 사용 방법
+
+         for (let inx = 0; inx <= 5; inx++) {
+            console.log(inx);
+         }
+
+2.  map  
+    배열이 선언되어있는 안에서 편리하게 사용할수 있는 자쓰함수
+
+         const arr = ['가', '나', '다', '라'];
+         arr.map((miyeon) => {
+             console.log(miyeon);
+         });
+
+3.  foreach 사용방법은 map과 비슷하다.(나중에 차이점은 알아보자)
+
+         const arr = ['가', '나', '다', '라'];
+         arr.foreach((miyeon) => {
+             console.log(miyeon);
+         });
+
+## 보너스!! 자쓰에서 윤책임님을 위해 하나 보너스를 줬다.
+
+map의 두번째 인자값은 자동빵으로 몇번째 줄인지 index를 준다.
+
+         const arr = ['가', '나', '다', '라'];
+         arr.map((miyeon,inx) => {
+             console.log(inx);
+         });
