@@ -1,83 +1,327 @@
-# 시작 1일차
+# 미연이 머리끄댕이 잡고 캐리한다.
 
-1.  node 설치 : http://nodejs.org/ko/download/
+## React 구조.
 
-2.  npx 설치 명령어 : npm install npx -g
+return 이라고 하는곳에 html tag를 넣으면 끝!
 
-3.  cra 수행 with TS : npx create-react-app myfront --template=typescript
+             import React from 'react';
+             import './App.css';
+             import FirstPage from './first/FirstPage';
 
-4.  vsCode 설치 : https://code.visualstudio.com/download
+             function App() {
+             return (
+                <div>
+                   안녕
+                </div>
+             );
+             }
 
-5.  vsc Extenstion 설치
-    1.  prettier : https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode  
-        설정파일 생성  
-        파일명: .prettierrc  
-         파일내용: { "trailingComma": "es5", "tabWidth": 4, "semi": false, "singleQuote": true }
-6.  수행한다.
+             export default App;
 
-        npm start
+## React State
 
-# 시작 3일차
+1.  선언방법
 
-## 세상으로 나가 보자!
+          const [abc, setAbc] = useState('화이팅');
 
-1. netlify 배포용 branch를 따로 만들자.
+    abc 가 state(변수)  
+    setAbc 는 state를 변경할수 있는 함수
 
-   1. VS code에서 ctrl+p 를 누른다.
-   2. branch 를 타입핑한다.
-   3. Create new Branch 를 선택한다.
-   4. branch 명을 넣는다.  
-      ex) netlify
-   5. git을 commit 하여 push 한다
+2.  React에서 State 표시하는 방법
 
-1. netlify 가입 with GitHub: https://www.netlify.com/
-1. Branch를 선택할대 netlify 용 branch를 선택한다.
+            import React from 'react';
+            import './App.css';
+            import FirstPage from './first/FirstPage';
 
-1. Deploy 설정 할때 Build script 를 변경해주어야 한다.  
-    Build command : CI= npm run build  
-   ![캡처](/public/md/netlify_setup.png)
+            function App() {
 
-1. VsCode에서 netlify branch로 push를 해보자!
+            const [abc, setAbc] = useState('화이팅');
 
-1. Deploy (배포) 잘되었는지 보자
+            return (
+                <div>
+                   {abc}
+                </div>
+            );
+            }
 
-   1. Deploy 메뉴를 클릭
-   2. 배포 상태가 Published 가 되었는지 확인 ![캡처](/public/md/netlify_setup6.png)
+            export default App;
 
-1. 도메인을 살짝 바꾸어보자 (Setting 들어가는 방법) 본인 아이디 클릭 ![캡처](/public/md/netlify_setup2.png)
+3.  State 값을 바꾸는 방법
 
-1. site settings 클릭 ![캡처](/public/md/netlify_setup3.png)
+         setAbc('잘자');
 
-1. site name 클릭 ![캡처](/public/md/netlify_setup4.png)
+4.  Flux
 
-1. 원하는 이름으로 바꾸고 Save 클릭 ![캡처](/public/md/netlify_setup5.png)
+    > Step1. Action(function)을 일으키고,
 
-1. 크롬에 Url 로 테스트 해본다.  
-   ex) https://redsky21.netlify.app/
+    > Step2. State 를 바꾸고(setAbc)
 
-## 자쓰 study
+    > Step3. 바뀐 State가 화면에 보여진다.
 
-1. 변수 상수  
-   https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Grammar_and_types
-2. 함수  
-   http://tcpschool.com/javascript/js_function_basic
+# 변수
 
-# 4일차
+1.  변수 종류
 
-## meterial ui 추가
+    1. string
+    2. number
 
-1.  이제 Git 의 Branch를 일자별로 따기로 하자.  
-    VS Code 에서 ctrl+shift+p 누르고 create branch  
-    일자 입력 !
-2.  material ui url : https://mui.com/  
-    Library 추가
+    3) date
+    4) boolean
+    5) null (이건 나중에 보자.)
+    6) undefined (이것도 나중에 보자.)
 
-            yarn add @mui/material
-            yarn add @emotion/react @emotion/styled
+2.  선언 방법
 
-## mobx 추가
+         let abc : string = '';
+         let cde : number = 0;
+         let fgh : boolean = false;
 
-https://www.howdy-mj.me/mobx/mobx6-intro/
+# 변수 연산
 
-         yarn add mobx mobx-react
+1.  string
 
+         let a : string = '가나다';
+         let b : string = '라마바';
+         let c : string = a+b;
+         console.log(c);
+         ----------------------------------------------------------------------
+         가나다라마바
+
+2.  number
+
+         let a: number = 1 ;
+         let b: number = 2 ;
+         let c: number = a + b;
+
+         console.log(c);
+         ----------------------------------------------------------------------
+         3
+         ---------------------------------------------------------------------- 3
+
+## 함수 (Function)
+
+1.  원리
+
+    > 입력값을 넣는다.(파라미터)
+
+    > 처리한다. (logic)
+
+    > 결과를 return 한다.
+
+2.  선언방법
+
+         const 함수명 = (파라미터) =>{
+            처리로직
+            return 결과값;
+         };
+
+ex)
+
+         const rain = (param: string) => {
+               setFirstString(firstString + param);
+               return '완료!!';
+         }
+
+## 조건 (if)
+
+1.  사용방법
+
+         if( 조건1 ){
+            조건1이 true일때 해야할일
+            }
+         else if( 조건2){
+            조건 2가 true 일때 해야할일
+            }
+         else{
+            조건 1도 2도 아닐때 해야할일
+         }
+
+2.  조건절 사용방법
+
+    1.  sting 조건
+
+             if ( a === '가나다' ) // a 가 가나다 일 때
+             if ( a !== '가나다' ) // a 가 가나다 아닐때
+
+    2.  number 조건
+
+            if ( a === '가나다' ) // a 가 가나다 일 때
+            if ( a !== '가나다' ) // a 가 가나다 아닐때
+
+## Loop
+
+1.  for loop 사용 방법
+
+         for (let inx = 0; inx <= 5; inx++) {
+            console.log(inx);
+         }
+
+2.  map  
+    배열이 선언되어있는 안에서 편리하게 사용할수 있는 자쓰함수
+
+         const arr = ['가', '나', '다', '라'];
+         arr.map((miyeon) => {
+             console.log(miyeon);
+         });
+
+3.  foreach 사용방법은 map과 비슷하다.(나중에 차이점은 알아보자)
+
+         const arr = ['가', '나', '다', '라'];
+         arr.foreach((miyeon) => {
+             console.log(miyeon);
+         });
+
+### 보너스!! 자쓰에서 윤책임님을 위해 하나 보너스를 줬다.
+
+map의 두번째 인자값은 자동빵으로 몇번째 줄인지 index를 준다.
+
+         const arr = ['가', '나', '다', '라'];
+         arr.map((miyeon,inx) => {
+             console.log(inx);
+         });
+
+map의 파라미터 (miyeon) 은 알아서 할당 된다.
+
+         const ManagementRowData3 = [
+      {
+        System: '법인카드',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '법인카드',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+      {
+        System: '',
+        Process: '한도증액',
+        'Submission No': 'S2021072100001',
+        'Submission Title': '법인카드 한도증액 3만불 이상 CFO승인 필수',
+        Registrant: '김바다 bada2 kim',
+        RegisterDept: '자금팀 123456',
+        'Register Date': '2021-6-22',
+        'Standard Authorization Matrix': '-',
+        Status: '',
+        'Due Date': '',
+        'Target Cnt.': '84',
+        'Confirm Cnt.': '80',
+        'Hold Cnt.': 0,
+        'Close Date': '',
+      },
+    ];
+    const MonitoringRowData2 = [
+      {
+        No: '1',
+        Subsidiary: 'LGEKR',
+        'Person in charge': '김시내 sinae3.kim',
+        Status: 'Confirmed',
+        Comment: 'CFO Role 추가 및 기존 1개 전결을 금액으로 분리하여 1개 전결을 추가완료',
+        'Confirm Date': '2021-07-22',
+        Hold: 'N',
+        'Hold Date': '',
+      },
+      {
+        No: '2',
+        Subsidiary: 'LGECH',
+        'Person in charge': '장**',
+        Status: 'Pending',
+        Comment: '',
+        'Confirm Date': '',
+        Hold: '',
+        'Hold Date': '',
+      },
+      {
+        No: '3',
+        Subsidiary: 'LGEUS',
+        'Person in charge': 'James**',
+        Status: 'Rejected',
+        Comment: 'US 법인 예외 처리 요청',
+        'Confirm Date': '2021-07-22',
+        Hold: '',
+        'Hold Date': '',
+      },
+      {
+        No: '4',
+        Subsidiary: 'LGEKR',
+        'Person in charge': '김시내 sinae3.kim',
+        Status: 'Confirmed',
+        Comment: 'CFO Role 추가 및 기존 1개 전결을 금액으로 분리하여 1개 전결을 추가완료',
+        'Confirm Date': '2021-07-22',
+        Hold: 'N',
+        'Hold Date': '',
+      },
+    ];
+    MonitoringRowData2.map((miyeon, index) => {
+      console.log(miyeon.No);
+    });
