@@ -1,12 +1,13 @@
-import { Button, TextField } from "@mui/material";
-import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
-import store from "../store";
+import { Button, TextField } from '@mui/material';
+import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
+import store from '../store';
+import StyledComponents from './MyButton';
 
-const FirstPage=observer(()=>{
-    const [abc, setAbc] = useState('화이팅');
+const FirstPage = observer(() => {
+  const [abc, setAbc] = useState('화이팅');
 
-    const {myStore} = store;
+  const { myStore } = store;
 
   const [firstString, setFirstString] = useState('');
   const [secondString, setSecondString] = useState('');
@@ -18,7 +19,6 @@ const FirstPage=observer(()=>{
   const handleButtonClick = () => {
     console.log('click');
     setAbc('잘자');
-    
   };
 
   const handleButtonClick2 = () => {
@@ -102,7 +102,7 @@ const FirstPage=observer(()=>{
 
     if (operatorString === '') {
       setFirstString(firstString + '8');
-      myStore.firstState = 'KKK'
+      myStore.firstState = 'KKK';
     } else {
       setSecondString(secondString + '8');
     }
@@ -159,24 +159,24 @@ const FirstPage=observer(()=>{
     setResultNumber(0);
   };
 
-  const intButtonClick =(event:React.MouseEvent<HTMLButtonElement, MouseEvent>,param:number)=>{
-      console.log('999');
-  }
+  const intButtonClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, param: number) => {
+    console.log('999');
+  };
 
-  const hanBangButton = ()=>{
-      let buttonGroup=[];
-    let aaa='1'
-      for(let inx =0; inx < 10 ;inx++ ){
-        buttonGroup.push(<Button>{inx}</Button>)
-      }
-      return buttonGroup;
-    
-  }
-  const hanBangButton2 = ()=>{
-    let buttonGroup=[1,2,3,4,5,6,7,8,9,0];
-    return buttonGroup.map((inx)=>{return <Button>{inx}</Button>})
-  
-}
+  const hanBangButton = () => {
+    let buttonGroup = [];
+    let aaa = '1';
+    for (let inx = 0; inx < 10; inx++) {
+      buttonGroup.push(<Button>{inx}</Button>);
+    }
+    return buttonGroup;
+  };
+  const hanBangButton2 = () => {
+    let buttonGroup = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    return buttonGroup.map((inx) => {
+      return <Button>{inx}</Button>;
+    });
+  };
 
   return (
     <div className="row-wrapper">
@@ -194,16 +194,13 @@ const FirstPage=observer(()=>{
       secondNumber: {secondNumber}
       <br />
       resultNumber: {resultNumber}
-      <br/>
+      <br />
       {myStore.firstState}
-      <div><TextField
-  label="Result"
-  variant="standard"
-  color="warning"
-  value= {resultNumber}
-/></div>
+      <div>
+        <TextField label="Result" variant="standard" color="warning" value={resultNumber} />
+      </div>
       <div className="row">
-        <Button onClick={(event)=>intButtonClick(event,9)}>9</Button>
+        <Button onClick={(event) => intButtonClick(event, 9)}>9</Button>
         <Button onClick={numberButtonClick8}>8</Button>
         <Button onClick={numberButtonClick7}>7</Button>
         <Button>*</Button>
@@ -233,7 +230,14 @@ const FirstPage=observer(()=>{
           Clear
         </Button>
       </div>
-      
-    </div>);
+      <StyledComponents
+        onClick={() => {
+          alert('ss');
+        }}
+      >
+        dddd
+      </StyledComponents>
+    </div>
+  );
 });
 export default FirstPage;
