@@ -22,7 +22,7 @@ const MyButton = styled(Button)((props:TButtonProps)=>({
 // }
 const StyledComponents = React.forwardRef<HTMLDivElement, TButtonProps>(
   ({ color = 'primary', className, children, ...rest }, ref) => {
-    return <MyButton  {...rest}>{children}</MyButton>;
+    return <MyButton  {...rest} >{children}</MyButton>;
   },
 );
 export default StyledComponents;
