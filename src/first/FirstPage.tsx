@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import store from '../store';
 import StyledComponents from './MyButton';
+import StyledLabel from './StyledLabel';
 
 const FirstPage = observer(() => {
   const [abc, setAbc] = useState('화이팅');
@@ -237,6 +238,7 @@ const FirstPage = observer(() => {
       >
         dddd
       </StyledComponents>
+      <StyledLabel>가나다</StyledLabel>
     </div>
   );
 });
