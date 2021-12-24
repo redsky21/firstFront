@@ -238,7 +238,7 @@ const FirstPage = observer(() => {
       >
         dddd
       </StyledComponents>
-      <StyledLabel>가나다</StyledLabel>
+      <StyledLabel required={true}>가나다</StyledLabel>
     </div>
   );
 });

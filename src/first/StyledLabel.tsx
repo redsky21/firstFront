@@ -4,6 +4,7 @@ import { FormLabelProps } from '@mui/material';
 
 export type TFormLabelProps = {
   myType?: string;
+  required ?: boolean;
 } & FormLabelProps;
 
 const MyFormLabel = styled(FormLabel)((props:TFormLabelProps)=>({
@@ -17,12 +18,16 @@ const MyFormLabel = styled(FormLabel)((props:TFormLabelProps)=>({
 
 }));
 
+const MyStar = styled(FormLabel)((props:TFormLabelProps)=>({
+  color: 'red',
+}));
+
 // export default function StyledComponents() {
 //   return <MyButton>Styled Components</MyButton>;
 // }
 const StyledLabel = React.forwardRef<HTMLDivElement, TFormLabelProps>(
-  ({ color = 'primary', className, children, ...rest }, ref) => {
-    return <MyFormLabel  {...rest} >{children}</MyFormLabel>;
+  ({ color = 'primary',required, className, children, ...rest }, ref) => {
+    return <div> {required&&<MyStar>*</MyStar>} <MyFormLabel  {...rest} >{children}</MyFormLabel></div>;
   },
 );
 export default StyledLabel;
