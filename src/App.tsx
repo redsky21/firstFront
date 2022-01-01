@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import FirstPage from './first/FirstPage';
+import SignIn from './pages/SignIn';
 
 function App() {
   return (
     <div>
-      <FirstPage></FirstPage>
+      <SignIn></SignIn>
     </div>
   );
 }
