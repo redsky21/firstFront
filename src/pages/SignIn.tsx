@@ -105,7 +105,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={()=>{navigate('/FirstPage')}}
+              onClick={()=>{navigate('/Layout')}}
             >
               Sign In
             </Button>
