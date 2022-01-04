@@ -29,20 +29,39 @@ export const SearchDiv = () => {
 
     gridApi.applyTransaction({ add: newRow });
   };
+  const getRowNodeId = (data) => {
+    return data.id;
+  };
+
+  const getRowData = () => {
+    const rowData3 = [];
+    gridApi.forEachNode((node) => {
+      rowData3.push(node.data);
+    });
+    console.log('Row Data:');
+    console.log(rowData3);
+    setHeaderGridDataset(rowData3);
+  };
 
   return (
     <>
       <div>
         <Button
           color="secondary"
-          style={{ backgroundColor: 'darkgrey', color: 'white' }}
+          style={{ backgroundColor: 'rgb(92,92,92)', color: 'white' }}
           onClick={() => {
             addSearchGridRow();
           }}
         >
           Add Row
         </Button>
-        <Button color="secondary" style={{ backgroundColor: 'darkgrey', color: 'white', marginLeft: '1rem' }}>
+        <Button
+          color="secondary"
+          style={{ backgroundColor: 'rgb(242,72,81)', color: 'rgb(255,255,255,0.9)', marginLeft: '1rem' }}
+          onClick={() => {
+            getRowData();
+          }}
+        >
           Save
         </Button>
       </div>
@@ -56,6 +75,7 @@ export const SearchDiv = () => {
             minWidth: 100,
             editable: true,
           }}
+          getRowNodeId={getRowNodeId}
         >
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>
           <AgGridColumn headerName="Name" field="name"></AgGridColumn>
