@@ -6,20 +6,14 @@ import FirstPage from './first/FirstPage';
 import SignIn from './pages/SignIn';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
+import PubInfo from './pages/PubInfo';
+import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 function App() {
-  
-
   return (
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SignIn></SignIn>} ></Route>
-        <Route path="/login" element={<SignIn></SignIn>} ></Route>
-        <Route path="/layout" element={<Layout></Layout>} ></Route>
-      </Routes>
-      </BrowserRouter>
-      
-    
+    <RecoilRoot>
+      <PubInfo />
+    </RecoilRoot>
   );
 }
 
