@@ -142,12 +142,16 @@ export const SearchDiv = () => {
           //onRowDragMove={onRowDragMove}
           onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
-          onRowDataChanged={refreshDataset}
-          onRowDataUpdated={refreshDataset}
         >
-          <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
-          <AgGridColumn headerName="Label" field="label"></AgGridColumn>
-          <AgGridColumn headerName="Name" field="name"></AgGridColumn>
+          <AgGridColumn
+            headerName=""
+            rowDrag={true}
+            maxWidth={50}
+            editable={false}
+            resizable={true}
+          ></AgGridColumn>
+          <AgGridColumn headerName="Label" field="label" resizable={true}></AgGridColumn>
+          <AgGridColumn headerName="Name" field="name" resizable={true}></AgGridColumn>
           <AgGridColumn
             headerName="type"
             field="type"
@@ -155,9 +159,10 @@ export const SearchDiv = () => {
             cellEditorParams={{
               values: ['', 'DatePicker', 'Select', 'Radio', 'Input', 'Checkbox', 'Button'],
             }}
+            resizable={true}
           ></AgGridColumn>
-          <AgGridColumn headerName="class" field="compClass"></AgGridColumn>
-          <AgGridColumn headerName="Id" field="compId"></AgGridColumn>
+          <AgGridColumn headerName="class" field="compClass" resizable={true}></AgGridColumn>
+          <AgGridColumn headerName="Id" field="compId" resizable={true}></AgGridColumn>
         </AgGridReact>
       </div>
     </>

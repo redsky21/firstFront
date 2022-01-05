@@ -85,15 +85,21 @@ export const GridItemDiv = () => {
   };
   const refreshDataset = () => {
     const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      const atomLine = Object.assign({}, node.data);
-      updateRows.push(atomLine);
-    });
-    setAuGridDataset(updateRows);
+    if (gridApi && gridApi.forEachNode) {
+      gridApi.forEachNode((node, index) => {
+        //console.log('node.data:::', node.data);
+        node.data.sortSeq = index;
+        const atomLine = Object.assign({}, node.data);
+        updateRows.push(atomLine);
+      });
+      setAuGridDataset(updateRows);
+    }
+    // gridColumnApi.autoSizeAllColumns(false);
   };
-
+  const onFirstDataRendered = (params) => {
+    // params.api.sizeColumnsToFit();
+    // gridColumnApi.autoSizeAllColumns(false);
+  };
   useEffect(() => {
     console.log('auGridDataset changed:::', auGridDataset);
   }, [auGridDataset]);
@@ -164,18 +170,28 @@ export const GridItemDiv = () => {
           }}
           // getRowNodeId={getRowNodeId}
           onCellValueChanged={onCellValueChanged}
-          onRowDataChanged={refreshDataset}
-          onRowDataUpdated={refreshDataset}
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
           animateRows={true}
           onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
+          onFirstDataRendered={onFirstDataRendered}
         >
-          <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
-          <AgGridColumn headerName="Label" field="headerText"></AgGridColumn>
-          <AgGridColumn headerName="Data Field" field="dataField"></AgGridColumn>
-          <AgGridColumn headerName="Group DataField" field="groupDataField"></AgGridColumn>
+          <AgGridColumn
+            headerName=""
+            rowDrag={true}
+            maxWidth={50}
+            editable={false}
+            resizable={true}
+          ></AgGridColumn>
+          <AgGridColumn headerName="Label" field="headerText" resizable={true}></AgGridColumn>
+          <AgGridColumn headerName="Data Field" field="dataField" resizable={true}></AgGridColumn>
+          <AgGridColumn
+            headerName="Group DataField"
+            field="groupDataField"
+            width={300}
+            resizable={true}
+          ></AgGridColumn>
 
           <AgGridColumn
             headerName="DataType"
@@ -184,9 +200,10 @@ export const GridItemDiv = () => {
             cellEditorParams={{
               values: ['string', 'numeric', 'date', 'boolean'],
             }}
+            resizable={true}
           ></AgGridColumn>
-          <AgGridColumn headerName="class" field="style"></AgGridColumn>
-          <AgGridColumn headerName="Width" field="width"></AgGridColumn>
+          <AgGridColumn headerName="class" field="style" resizable={true}></AgGridColumn>
+          <AgGridColumn headerName="Width" field="width" resizable={true}></AgGridColumn>
 
           <AgGridColumn
             headerName="Format"
@@ -195,8 +212,9 @@ export const GridItemDiv = () => {
             cellEditorParams={(params) => {
               return getFormatList(params);
             }}
+            resizable={true}
           ></AgGridColumn>
-          <AgGridColumn headerName="header class" field="headerStyle"></AgGridColumn>
+          <AgGridColumn headerName="header class" field="headerStyle" resizable={true}></AgGridColumn>
         </AgGridReact>
       </div>
     </>

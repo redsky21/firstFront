@@ -33,6 +33,7 @@ export const GridButtonDiv = () => {
   const onGridReady = (params) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
+    params.api.sizeColumnsToFit();
   };
 
   useEffect(() => {
@@ -143,8 +144,6 @@ export const GridButtonDiv = () => {
           animateRows={true}
           onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
-          onRowDataChanged={refreshDataset}
-          onRowDataUpdated={refreshDataset}
         >
           <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>
