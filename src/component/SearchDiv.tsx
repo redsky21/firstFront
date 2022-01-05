@@ -86,7 +86,7 @@ export const SearchDiv = () => {
         >
           파일 생성
         </Button> */}
-        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회조건</h4>
+        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 항목</h4>
         <Button
           variant="outlined"
           style={{

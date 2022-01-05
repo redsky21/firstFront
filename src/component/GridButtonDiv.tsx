@@ -5,7 +5,13 @@ import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-import { HeaderButtonGridDataset, HeaderGridDataset, HiState, ISearchHeaderGrid } from 'src/states/EggStore';
+import {
+  GridButtonGridDataset,
+  HeaderButtonGridDataset,
+  HeaderGridDataset,
+  HiState,
+  ISearchHeaderGrid,
+} from 'src/states/EggStore';
 import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
@@ -14,8 +20,8 @@ import { CellValueChangedEvent, ColumnApi, GridApi } from 'ag-grid-community';
 const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
 console.log('rowData2:::', rowData2);
-export const SearchButtonDiv = () => {
-  const [headerButtonGridDataset, setHeaderButtonGridDataset] = useRecoilState(HeaderButtonGridDataset);
+export const GridButtonDiv = () => {
+  const [gridButtonGridDataset, setGridButtonGridDataset] = useRecoilState(GridButtonGridDataset);
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
@@ -51,7 +57,7 @@ export const SearchButtonDiv = () => {
     });
     console.log('Row Data:');
     console.log(rowData3);
-    setHeaderButtonGridDataset(rowData3);
+    setGridButtonGridDataset(rowData3);
   };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
     console.log('Data', data);
@@ -82,7 +88,7 @@ export const SearchButtonDiv = () => {
         >
           파일 생성
         </Button> */}
-        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 버튼</h4>
+        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>Grid 버튼</h4>
         <Button
           variant="outlined"
           style={{
