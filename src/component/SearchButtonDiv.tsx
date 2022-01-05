@@ -140,6 +140,8 @@ export const SearchButtonDiv = () => {
           //onRowDragMove={onRowDragMove}
           onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
+          onRowDataChanged={refreshDataset}
+          onRowDataUpdated={refreshDataset}
         >
           <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>

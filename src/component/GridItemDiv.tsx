@@ -115,6 +115,10 @@ export const GridItemDiv = () => {
           values: [],
         };
       }
+    } else {
+      return {
+        values: [],
+      };
     }
   };
   return (
@@ -160,6 +164,8 @@ export const GridItemDiv = () => {
           }}
           // getRowNodeId={getRowNodeId}
           onCellValueChanged={onCellValueChanged}
+          onRowDataChanged={refreshDataset}
+          onRowDataUpdated={refreshDataset}
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
           animateRows={true}
@@ -167,19 +173,10 @@ export const GridItemDiv = () => {
           stopEditingWhenCellsLoseFocus={true}
         >
           <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
+          <AgGridColumn headerName="Label" field="headerText"></AgGridColumn>
           <AgGridColumn headerName="Data Field" field="dataField"></AgGridColumn>
           <AgGridColumn headerName="Group DataField" field="groupDataField"></AgGridColumn>
-          <AgGridColumn headerName="Label" field="headerText"></AgGridColumn>
-          {/* <AgGridColumn
-            headerName="Variant"
-            field="type"
-            cellEditor="agSelectCellEditor"
-            cellEditorParams={{
-              values: ['', 'Contained', 'Outlined'],
-            }}
-          ></AgGridColumn> */}
-          <AgGridColumn headerName="class" field="style"></AgGridColumn>
-          <AgGridColumn headerName="Width" field="width"></AgGridColumn>
+
           <AgGridColumn
             headerName="DataType"
             field="dataType"
@@ -188,6 +185,9 @@ export const GridItemDiv = () => {
               values: ['string', 'numeric', 'date', 'boolean'],
             }}
           ></AgGridColumn>
+          <AgGridColumn headerName="class" field="style"></AgGridColumn>
+          <AgGridColumn headerName="Width" field="width"></AgGridColumn>
+
           <AgGridColumn
             headerName="Format"
             field="formatString"
