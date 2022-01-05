@@ -41,7 +41,7 @@ export const GridItemDiv = () => {
 
   const addSearchGridRow = () => {
     const newRow: ISearchHeaderGrid[] = [{ type: 'Contained', compClass: 'inquBtn' }];
-    console.log('rowData2:::', rowData2);
+    //console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
 
     gridApi.applyTransaction({ add: newRow });
@@ -55,27 +55,67 @@ export const GridItemDiv = () => {
     gridApi.forEachNode((node) => {
       rowData3.push(node.data);
     });
-    console.log('Row Data:');
-    console.log(rowData3);
+    //console.log('Row Data:');
+    //console.log(rowData3);
     setAuGridDataset(rowData3);
   };
-  const onRowDragMove = (event: RowDragEvent) => {
-    gridApi.forEachNode((node) => {
-      console.log('node.data:::', node.data);
-    });
-  };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    // console.log('Data', data);
+    // //console.log('Data', data);
     // if (data.type) {
     //   //   if (!data.compClass) {
-    //   console.log('TTy', data.type);
+    //   //console.log('TTy', data.type);
     //   const defValue = defaultClass.find((defRow) => {
     //     return defRow.defType === data.type;
     //   });
-    //   console.log('defValue', defValue.clName);
+    //   //console.log('defValue', defValue.clName);
     //   rowNode.setData({ ...data, compClass: defValue.clName });
     //   //}
     // }
+    refreshDataset();
+  };
+  const onRowDragMove = (event: RowDragEvent) => {
+    const updateRows = [];
+    gridApi.forEachNode((node, index) => {
+      //console.log('node.data:::', node.data);
+      node.data.sortSeq = index;
+      updateRows.push(node.data);
+    });
+    gridApi.applyTransaction({ update: updateRows });
+    refreshDataset();
+  };
+  const refreshDataset = () => {
+    const updateRows = [];
+    gridApi.forEachNode((node, index) => {
+      //console.log('node.data:::', node.data);
+      node.data.sortSeq = index;
+      const atomLine = Object.assign({}, node.data);
+      updateRows.push(atomLine);
+    });
+    setAuGridDataset(updateRows);
+  };
+
+  useEffect(() => {
+    console.log('auGridDataset changed:::', auGridDataset);
+  }, [auGridDataset]);
+
+  const getFormatList = (params) => {
+    console.log('params', params);
+    console.log('params.data', params.data);
+    if (params.data && params.data.dataType) {
+      if (params.data.dataType === 'numeric') {
+        return {
+          values: ['', '###0', '####', '#,##0', '#,###', '#,##0.0', '#,##0.#', '#,##0.00', '#,##0.0#'],
+        };
+      } else if (params.data.dataType === 'date') {
+        return {
+          values: ['yyyy-mm-dd', 'yyyy-mm-dd HH:MM:ss', 'yyyy-mm', 'yyyy'],
+        };
+      } else {
+        return {
+          values: [],
+        };
+      }
+    }
   };
   return (
     <>
@@ -105,7 +145,7 @@ export const GridItemDiv = () => {
             addSearchGridRow();
           }}
         >
-          버튼 추가
+          항목 추가
         </Button>
       </div>
       <div className="ag-theme-alpine" style={{ height: '15rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
@@ -123,21 +163,40 @@ export const GridItemDiv = () => {
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
           animateRows={true}
-          onRowDragMove={onRowDragMove}
+          onRowDragEnd={onRowDragMove}
+          stopEditingWhenCellsLoseFocus={true}
         >
           <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
-          <AgGridColumn headerName="Label" field="label"></AgGridColumn>
-          <AgGridColumn headerName="Name" field="name"></AgGridColumn>
-          <AgGridColumn
+          <AgGridColumn headerName="Data Field" field="dataField"></AgGridColumn>
+          <AgGridColumn headerName="Group DataField" field="groupDataField"></AgGridColumn>
+          <AgGridColumn headerName="Label" field="headerText"></AgGridColumn>
+          {/* <AgGridColumn
             headerName="Variant"
             field="type"
             cellEditor="agSelectCellEditor"
             cellEditorParams={{
               values: ['', 'Contained', 'Outlined'],
             }}
+          ></AgGridColumn> */}
+          <AgGridColumn headerName="class" field="style"></AgGridColumn>
+          <AgGridColumn headerName="Width" field="width"></AgGridColumn>
+          <AgGridColumn
+            headerName="DataType"
+            field="dataType"
+            cellEditor="agSelectCellEditor"
+            cellEditorParams={{
+              values: ['string', 'numeric', 'date', 'boolean'],
+            }}
           ></AgGridColumn>
-          <AgGridColumn headerName="class" field="compClass"></AgGridColumn>
-          <AgGridColumn headerName="Id" field="compId"></AgGridColumn>
+          <AgGridColumn
+            headerName="Format"
+            field="formatString"
+            cellEditor="agSelectCellEditor"
+            cellEditorParams={(params) => {
+              return getFormatList(params);
+            }}
+          ></AgGridColumn>
+          <AgGridColumn headerName="header class" field="headerStyle"></AgGridColumn>
         </AgGridReact>
       </div>
     </>

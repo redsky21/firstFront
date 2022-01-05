@@ -13,7 +13,7 @@ import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid
 
 const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
-console.log('rowData2:::', rowData2);
+//console.log('rowData2:::', rowData2);
 export const SearchButtonDiv = () => {
   const [headerButtonGridDataset, setHeaderButtonGridDataset] = useRecoilState(HeaderButtonGridDataset);
   const [gridApi, setGridApi] = useState<GridApi>(null);
@@ -35,11 +35,11 @@ export const SearchButtonDiv = () => {
 
   const addSearchGridRow = () => {
     const newRow: ISearchHeaderGrid[] = [{ type: 'Contained', compClass: 'inquBtn' }];
-    // console.log('rowData2:::', rowData2);
+    // //console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
     gridApi.forEachNode((node) => {
-      console.log('node Data:');
-      console.log(node.data);
+      //console.log('node Data:');
+      //console.log(node.data);
     });
     gridApi.applyTransaction({ add: newRow });
   };
@@ -52,30 +52,44 @@ export const SearchButtonDiv = () => {
     gridApi.forEachNode((node) => {
       rowData3.push(node.data);
     });
-    console.log('Row Data:');
-    console.log(rowData3);
+    //console.log('Row Data:');
+    //console.log(rowData3);
     setHeaderButtonGridDataset(rowData3);
   };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    console.log('Data', data);
+    //console.log('Data', data);
     if (data.type) {
       //   if (!data.compClass) {
-      console.log('TTy', data.type);
+      //console.log('TTy', data.type);
       const defValue = defaultClass.find((defRow) => {
         return defRow.defType === data.type;
       });
-      console.log('defValue', defValue.clName);
+      //console.log('defValue', defValue.clName);
       rowNode.setData({ ...data, compClass: defValue.clName });
       //}
     }
+    refreshDataset();
   };
   const setSortSeq = () => {};
   const onRowDragMove = (event: RowDragEvent) => {
-    // gridApi.forEachNode((node, index) => {
-    //   node.data.sortSeq = index;
-    //   console.log('node.data:::', node.data);
-    // });
-    // setSortSeq();
+    const updateRows = [];
+    gridApi.forEachNode((node, index) => {
+      //console.log('node.data:::', node.data);
+      node.data.sortSeq = index;
+      updateRows.push(node.data);
+    });
+    gridApi.applyTransaction({ update: updateRows });
+    refreshDataset();
+  };
+  const refreshDataset = () => {
+    const updateRows = [];
+    gridApi.forEachNode((node, index) => {
+      //console.log('node.data:::', node.data);
+      node.data.sortSeq = index;
+      const atomLine = Object.assign({}, node.data);
+      updateRows.push(atomLine);
+    });
+    setHeaderButtonGridDataset(updateRows);
   };
   return (
     <>
@@ -123,7 +137,9 @@ export const SearchButtonDiv = () => {
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
           animateRows={true}
-          onRowDragMove={onRowDragMove}
+          //onRowDragMove={onRowDragMove}
+          onRowDragEnd={onRowDragMove}
+          stopEditingWhenCellsLoseFocus={true}
         >
           <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>

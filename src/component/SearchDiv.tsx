@@ -13,7 +13,7 @@ import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid
 
 const rowData2 = [{}] as ISearchHeaderGrid[];
 
-console.log('rowData2:::', rowData2);
+//console.log('rowData2:::', rowData2);
 export const SearchDiv = () => {
   const [headerGridDataset, setHeaderGridDataset] = useRecoilState(HeaderGridDataset);
   const [gridApi, setGridApi] = useState<GridApi>(null);
@@ -39,7 +39,7 @@ export const SearchDiv = () => {
 
   const addSearchGridRow = () => {
     const newRow: ISearchHeaderGrid[] = [{}];
-    console.log('rowData2:::', rowData2);
+    //console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
 
     gridApi.applyTransaction({ add: newRow });
@@ -53,28 +53,46 @@ export const SearchDiv = () => {
     gridApi.forEachNode((node) => {
       rowData3.push(node.data);
     });
-    console.log('Row Data:');
-    console.log(rowData3);
+    //console.log('Row Data:');
+    //console.log(rowData3);
     setHeaderGridDataset(rowData3);
   };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    console.log('Data', data);
+    //console.log('Data', data);
     if (data.type) {
       //   if (!data.compClass) {
-      console.log('TTy', data.type);
+      //console.log('TTy', data.type);
       const defValue = defaultClass.find((defRow) => {
         return defRow.defType === data.type;
       });
-      console.log('defValue', defValue.clName);
+      //console.log('defValue', defValue.clName);
       rowNode.setData({ ...data, compClass: defValue.clName });
       //}
     }
+    refreshDataset();
   };
   const onRowDragMove = (event: RowDragEvent) => {
-    gridApi.forEachNode((node) => {
-      console.log('node.data:::', node.data);
+    const updateRows = [];
+    gridApi.forEachNode((node, index) => {
+      //console.log('node.data:::', node.data);
+      node.data.sortSeq = index;
+      updateRows.push(node.data);
     });
+    gridApi.applyTransaction({ update: updateRows });
+    refreshDataset();
   };
+
+  const refreshDataset = () => {
+    const updateRows = [];
+    gridApi.forEachNode((node, index) => {
+      //console.log('node.data:::', node.data);
+      node.data.sortSeq = index;
+      const atomLine = Object.assign({}, node.data);
+      updateRows.push(atomLine);
+    });
+    setHeaderGridDataset(updateRows);
+  };
+
   return (
     <>
       <div style={{ display: 'flex', width: '50%', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -121,7 +139,9 @@ export const SearchDiv = () => {
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
           animateRows={true}
-          onRowDragMove={onRowDragMove}
+          //onRowDragMove={onRowDragMove}
+          onRowDragEnd={onRowDragMove}
+          stopEditingWhenCellsLoseFocus={true}
         >
           <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>

@@ -14,9 +14,9 @@ export interface IAuiGridColBaseProps {
   headerText?: string;
   style?: string;
   width?: string;
-  compClass?: string;
-  compId?: string;
   dataType?: string;
+  headerStyle?: string;
+  formatString?: string;
   groupDataField?: string;
 }
 
