@@ -1,12 +1,32 @@
 import { atom } from 'recoil';
 
 export interface ISearchHeaderGrid {
+  sortSeq?: number;
   label?: string;
   name?: string;
   type?: string;
   compClass?: string;
   compId?: string;
 }
+
+export interface IAuiGridColBaseProps {
+  dataField?: string;
+  headerText?: string;
+  style?: string;
+  width?: string;
+  compClass?: string;
+  compId?: string;
+  dataType?: string;
+  groupDataField?: string;
+}
+
+// export interface IAuiGridColProps extends IAuiGridColBaseProps {
+//   groupColmn
+// }
+export const AuGridDataset = atom({
+  key: 'AuGridDataset',
+  default: [] as IAuiGridColBaseProps[],
+});
 
 export const HiState = atom({
   key: 'hiState',

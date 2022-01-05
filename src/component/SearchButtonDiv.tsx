@@ -1,15 +1,15 @@
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
-import 'ag-grid-community/dist/styles/ag-theme-material.css';
+// import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
+// import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+// import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
 import { HeaderButtonGridDataset, HeaderGridDataset, HiState, ISearchHeaderGrid } from 'src/states/EggStore';
 import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import { CellValueChangedEvent, ColumnApi, GridApi } from 'ag-grid-community';
+import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
 
 const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
@@ -35,9 +35,12 @@ export const SearchButtonDiv = () => {
 
   const addSearchGridRow = () => {
     const newRow: ISearchHeaderGrid[] = [{ type: 'Contained', compClass: 'inquBtn' }];
-    console.log('rowData2:::', rowData2);
+    // console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
-
+    gridApi.forEachNode((node) => {
+      console.log('node Data:');
+      console.log(node.data);
+    });
     gridApi.applyTransaction({ add: newRow });
   };
   const getRowNodeId = (data) => {
@@ -65,6 +68,14 @@ export const SearchButtonDiv = () => {
       rowNode.setData({ ...data, compClass: defValue.clName });
       //}
     }
+  };
+  const setSortSeq = () => {};
+  const onRowDragMove = (event: RowDragEvent) => {
+    // gridApi.forEachNode((node, index) => {
+    //   node.data.sortSeq = index;
+    //   console.log('node.data:::', node.data);
+    // });
+    // setSortSeq();
   };
   return (
     <>
@@ -107,9 +118,14 @@ export const SearchButtonDiv = () => {
             minWidth: 100,
             editable: true,
           }}
-          getRowNodeId={getRowNodeId}
+          // getRowNodeId={getRowNodeId}
           onCellValueChanged={onCellValueChanged}
+          rowDragManaged={true}
+          suppressMoveWhenRowDragging={true}
+          animateRows={true}
+          onRowDragMove={onRowDragMove}
         >
+          <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>
           <AgGridColumn headerName="Name" field="name"></AgGridColumn>
           <AgGridColumn

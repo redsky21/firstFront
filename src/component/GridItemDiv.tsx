@@ -5,29 +5,31 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 // import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 // import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-import { HeaderGridDataset, HiState, ISearchHeaderGrid } from 'src/states/EggStore';
+import {
+  AuGridDataset,
+  GridButtonGridDataset,
+  HeaderButtonGridDataset,
+  HeaderGridDataset,
+  HiState,
+  ISearchHeaderGrid,
+} from 'src/states/EggStore';
 import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
 
-const rowData2 = [{}] as ISearchHeaderGrid[];
+const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
-console.log('rowData2:::', rowData2);
-export const SearchDiv = () => {
-  const [headerGridDataset, setHeaderGridDataset] = useRecoilState(HeaderGridDataset);
+export const GridItemDiv = () => {
+  const [auGridDataset, setAuGridDataset] = useRecoilState(AuGridDataset);
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
   const rowDD = rowData;
-  const defaultClass = [
-    { defType: 'DatePicker', clName: 'dateWrap' },
-    { defType: 'Select', clName: 'sel mr7' },
-    { defType: 'Radio', clName: 'checkGroup' },
-    { defType: 'Input', clName: 'inp w120 mr10' },
-    { defType: 'Checkbox', clName: 'checkGroup' },
-    { defType: 'Button', clName: 'comBtn' },
-  ];
+  // const defaultClass = [
+  //   { defType: 'Contained', clName: 'inquBtn' },
+  //   { defType: 'Outlined', clName: 'comBtn' },
+  // ];
   const onGridReady = (params) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
@@ -38,7 +40,7 @@ export const SearchDiv = () => {
   }, []);
 
   const addSearchGridRow = () => {
-    const newRow: ISearchHeaderGrid[] = [{}];
+    const newRow: ISearchHeaderGrid[] = [{ type: 'Contained', compClass: 'inquBtn' }];
     console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
 
@@ -55,25 +57,25 @@ export const SearchDiv = () => {
     });
     console.log('Row Data:');
     console.log(rowData3);
-    setHeaderGridDataset(rowData3);
-  };
-  const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    console.log('Data', data);
-    if (data.type) {
-      //   if (!data.compClass) {
-      console.log('TTy', data.type);
-      const defValue = defaultClass.find((defRow) => {
-        return defRow.defType === data.type;
-      });
-      console.log('defValue', defValue.clName);
-      rowNode.setData({ ...data, compClass: defValue.clName });
-      //}
-    }
+    setAuGridDataset(rowData3);
   };
   const onRowDragMove = (event: RowDragEvent) => {
     gridApi.forEachNode((node) => {
       console.log('node.data:::', node.data);
     });
+  };
+  const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
+    // console.log('Data', data);
+    // if (data.type) {
+    //   //   if (!data.compClass) {
+    //   console.log('TTy', data.type);
+    //   const defValue = defaultClass.find((defRow) => {
+    //     return defRow.defType === data.type;
+    //   });
+    //   console.log('defValue', defValue.clName);
+    //   rowNode.setData({ ...data, compClass: defValue.clName });
+    //   //}
+    // }
   };
   return (
     <>
@@ -91,7 +93,7 @@ export const SearchDiv = () => {
         >
           파일 생성
         </Button> */}
-        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 항목</h4>
+        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>AUI Grid 셋팅</h4>
         <Button
           variant="outlined"
           style={{
@@ -103,10 +105,10 @@ export const SearchDiv = () => {
             addSearchGridRow();
           }}
         >
-          조건 추가
+          버튼 추가
         </Button>
       </div>
-      <div className="ag-theme-alpine" style={{ height: '20rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
+      <div className="ag-theme-alpine" style={{ height: '15rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
         <AgGridReact
           rowData={rowData2}
           onGridReady={onGridReady}
@@ -116,7 +118,7 @@ export const SearchDiv = () => {
             minWidth: 100,
             editable: true,
           }}
-          //   getRowNodeId={getRowNodeId}
+          // getRowNodeId={getRowNodeId}
           onCellValueChanged={onCellValueChanged}
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
@@ -127,11 +129,11 @@ export const SearchDiv = () => {
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>
           <AgGridColumn headerName="Name" field="name"></AgGridColumn>
           <AgGridColumn
-            headerName="type"
+            headerName="Variant"
             field="type"
             cellEditor="agSelectCellEditor"
             cellEditorParams={{
-              values: ['', 'DatePicker', 'Select', 'Radio', 'Input', 'Checkbox', 'Button'],
+              values: ['', 'Contained', 'Outlined'],
             }}
           ></AgGridColumn>
           <AgGridColumn headerName="class" field="compClass"></AgGridColumn>

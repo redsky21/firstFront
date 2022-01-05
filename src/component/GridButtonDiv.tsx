@@ -1,9 +1,9 @@
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
-import 'ag-grid-community/dist/styles/ag-theme-material.css';
+// import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
+// import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
+// import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
 import {
   GridButtonGridDataset,
@@ -15,7 +15,7 @@ import {
 import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import { CellValueChangedEvent, ColumnApi, GridApi } from 'ag-grid-community';
+import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
 
 const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
@@ -58,6 +58,11 @@ export const GridButtonDiv = () => {
     console.log('Row Data:');
     console.log(rowData3);
     setGridButtonGridDataset(rowData3);
+  };
+  const onRowDragMove = (event: RowDragEvent) => {
+    gridApi.forEachNode((node) => {
+      console.log('node.data:::', node.data);
+    });
   };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
     console.log('Data', data);
@@ -113,9 +118,14 @@ export const GridButtonDiv = () => {
             minWidth: 100,
             editable: true,
           }}
-          getRowNodeId={getRowNodeId}
+          // getRowNodeId={getRowNodeId}
           onCellValueChanged={onCellValueChanged}
+          rowDragManaged={true}
+          suppressMoveWhenRowDragging={true}
+          animateRows={true}
+          onRowDragMove={onRowDragMove}
         >
+          <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
           <AgGridColumn headerName="Label" field="label"></AgGridColumn>
           <AgGridColumn headerName="Name" field="name"></AgGridColumn>
           <AgGridColumn
