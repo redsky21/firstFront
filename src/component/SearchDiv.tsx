@@ -23,14 +23,18 @@ export const SearchDiv = () => {
   const defaultClass = [
     { defType: 'DatePicker', clName: 'dateWrap' },
     { defType: 'Select', clName: 'sel mr7' },
-    { defType: 'Radio', clName: 'aa' },
-    { defType: 'Input', clName: 'bb' },
-    { defType: 'Checkbox', clName: 'cc' },
+    { defType: 'Radio', clName: 'checkGroup' },
+    { defType: 'Input', clName: 'inp w120 mr10' },
+    { defType: 'Checkbox', clName: 'checkGroup' },
   ];
   const onGridReady = (params) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
   };
+
+  useEffect(() => {
+    rowData2.slice(0, rowData2.length);
+  }, []);
 
   const addSearchGridRow = () => {
     const newRow: ISearchHeaderGrid[] = [{}];
