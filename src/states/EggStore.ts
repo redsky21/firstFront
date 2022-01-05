@@ -17,3 +17,8 @@ export const HeaderGridDataset = atom({
   key: 'HeaderGridDataset',
   default: [] as ISearchHeaderGrid[],
 });
+
+export const HeaderButtonGridDataset = atom({
+  key: 'HeaderButtonGridDataset',
+  default: [] as ISearchHeaderGrid[],
+});
