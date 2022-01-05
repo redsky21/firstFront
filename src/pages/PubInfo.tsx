@@ -6,10 +6,9 @@ import { HiState } from 'src/states/EggStore';
 
 const PubInfo = () => {
   return (
-    <>
-      <ButtonDiv></ButtonDiv>
+    <div>
       <SearchDiv />
-    </>
+    </div>
   );
 };
 export default PubInfo;
