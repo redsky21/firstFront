@@ -11,7 +11,7 @@ import {
   HeaderButtonGridDataset,
   HeaderGridDataset,
   HiState,
-  ISearchHeaderGrid,
+  IAuiGridColBaseProps,
 } from 'src/states/EggStore';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
@@ -24,7 +24,7 @@ import {
   RowDragEvent,
 } from 'ag-grid-community';
 
-const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
+const rowData2 = [{ sumFlag: 'N' }] as IAuiGridColBaseProps[];
 
 export const GridItemDiv = () => {
   const setAuGridDataset = useSetRecoilState(AuGridDataset);
@@ -43,7 +43,7 @@ export const GridItemDiv = () => {
   }, []);
 
   const addSearchGridRow = () => {
-    const newRow: ISearchHeaderGrid[] = [{ type: 'Contained', compClass: 'inquBtn' }];
+    const newRow: IAuiGridColBaseProps[] = [{ sumFlag: 'N' }];
     //console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
 
@@ -71,7 +71,11 @@ export const GridItemDiv = () => {
         return defRow.dataType === data.dataType;
       });
       //console.log('defValue', defValue.clName);
-      rowNode.setData({ ...data, style: defValue ? defValue.clName : null });
+      rowNode.setData({
+        ...data,
+        style: defValue ? defValue.clName : null,
+        sumFlag: data.dataType === 'numeric' ? 'Y' : 'N',
+      });
       //}
     }
     refreshDataset();
@@ -243,6 +247,16 @@ export const GridItemDiv = () => {
             resizable={true}
           ></AgGridColumn>
           <AgGridColumn headerName="header class" field="headerStyle" resizable={true}></AgGridColumn>
+          <AgGridColumn
+            headerName="합계"
+            field="sumFlag"
+            cellEditor="agSelectCellEditor"
+            cellEditorParams={{
+              values: ['Y', 'N'],
+            }}
+            resizable={true}
+          ></AgGridColumn>
+
           {/* <AgGridColumn
             field="make"
             cellEditor="select"

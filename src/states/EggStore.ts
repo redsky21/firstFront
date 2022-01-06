@@ -18,6 +18,7 @@ export interface IAuiGridColBaseProps {
   headerStyle?: string;
   formatString?: string;
   groupDataField?: string;
+  sumFlag?: string;
 }
 
 // export interface IAuiGridColProps extends IAuiGridColBaseProps {
