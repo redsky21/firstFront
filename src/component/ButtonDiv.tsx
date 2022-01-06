@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { useRecoilValue } from 'recoil';
-import { checkHello } from 'src/api/bootService';
+import { checkHello, getHtmlInfo } from 'src/api/bootService';
 import {
   AuGridDataset,
   GridButtonGridDataset,
@@ -27,7 +27,13 @@ export const ButtonDiv = () => {
           console.log('headerGridDataset::', headerGridDataset);
           console.log('headerButtonGridDataset::', headerButtonGridDataset);
           console.log('gridButtonGridDataset::', gridButtonGridDataset);
-          checkHello({ aa: 'bb' });
+          const paramData = {
+            searchItemList: headerGridDataset,
+            searchButtonList: headerButtonGridDataset,
+            gridButtonList: gridButtonGridDataset,
+            gridItemList: auGridDataset,
+          };
+          getHtmlInfo(paramData);
         }}
       >
         생성
