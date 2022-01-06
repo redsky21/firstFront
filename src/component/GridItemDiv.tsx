@@ -13,15 +13,21 @@ import {
   HiState,
   ISearchHeaderGrid,
 } from 'src/states/EggStore';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
+import {
+  CellValueChangedEvent,
+  ColumnApi,
+  FirstDataRenderedEvent,
+  GridApi,
+  RowDragEvent,
+} from 'ag-grid-community';
 
 const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
 export const GridItemDiv = () => {
-  const [auGridDataset, setAuGridDataset] = useRecoilState(AuGridDataset);
+  const setAuGridDataset = useSetRecoilState(AuGridDataset);
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
@@ -84,25 +90,22 @@ export const GridItemDiv = () => {
     refreshDataset();
   };
   const refreshDataset = () => {
-    const updateRows = [];
     if (gridApi && gridApi.forEachNode) {
+      const updateRows = [];
       gridApi.forEachNode((node, index) => {
         //console.log('node.data:::', node.data);
-        node.data.sortSeq = index;
-        const atomLine = Object.assign({}, node.data);
+        // node.data.sortSeq = index;
+        const atomLine = Object.assign({}, { ...node.data, sortSeq: index });
         updateRows.push(atomLine);
       });
       setAuGridDataset(updateRows);
     }
     // gridColumnApi.autoSizeAllColumns(false);
   };
-  const onFirstDataRendered = (params) => {
-    // params.api.sizeColumnsToFit();
-    // gridColumnApi.autoSizeAllColumns(false);
-  };
-  useEffect(() => {
-    console.log('auGridDataset changed:::', auGridDataset);
-  }, [auGridDataset]);
+
+  // useEffect(() => {
+  //   console.log('auGridDataset changed:::', auGridDataset);
+  // }, [auGridDataset]);
 
   const getFormatList = (params) => {
     console.log('params', params);
@@ -127,6 +130,32 @@ export const GridItemDiv = () => {
       };
     }
   };
+
+  // var carMappings = {
+  //   tyt: 'Toyota',
+  //   frd: 'Ford',
+  //   prs: 'Porsche',
+  //   nss: 'Nissan',
+  // };
+
+  const carMappingArray = [
+    { code: 'tyt', meaning: 'Toyota' },
+    { code: 'frd', meaning: 'Ford' },
+    { code: 'prs', meaning: 'Porsche' },
+    { code: 'nss', meaning: 'Nissan' },
+  ];
+
+  const carMappings = carMappingArray.reduce((newObj, obj) => {
+    newObj[obj.code] = obj.meaning;
+    return newObj;
+  }, {});
+
+  const carBrands = extractValues(carMappings);
+
+  function extractValues(mappings) {
+    return Object.keys(mappings);
+  }
+
   return (
     <>
       <div style={{ display: 'flex', width: '50%', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -145,10 +174,10 @@ export const GridItemDiv = () => {
         </Button> */}
         <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>AUI Grid 셋팅</h4>
         <Button
-          variant="outlined"
+          variant="contained"
           style={{
-            backgroundColor: '#1EA2A4',
-            color: 'white',
+            // backgroundColor: '#1EA2A4',
+            // color: 'white',
             margin: '1rem 0 0.5rem 1rem',
           }}
           onClick={() => {
@@ -175,7 +204,9 @@ export const GridItemDiv = () => {
           animateRows={true}
           onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
-          onFirstDataRendered={onFirstDataRendered}
+          onFirstDataRendered={(event: FirstDataRenderedEvent) => {
+            event.columnApi.autoSizeAllColumns(false);
+          }}
         >
           <AgGridColumn
             headerName=""
@@ -189,7 +220,7 @@ export const GridItemDiv = () => {
           <AgGridColumn
             headerName="Group DataField"
             field="groupDataField"
-            width={300}
+            // width={300}
             resizable={true}
           ></AgGridColumn>
 
@@ -215,6 +246,13 @@ export const GridItemDiv = () => {
             resizable={true}
           ></AgGridColumn>
           <AgGridColumn headerName="header class" field="headerStyle" resizable={true}></AgGridColumn>
+          {/* <AgGridColumn
+            field="make"
+            cellEditor="select"
+            cellEditorParams={{ values: carBrands }}
+            filter="agSetColumnFilter"
+            refData={carMappings}
+          /> */}
         </AgGridReact>
       </div>
     </>

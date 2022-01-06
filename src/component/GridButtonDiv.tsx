@@ -96,6 +96,7 @@ export const GridButtonDiv = () => {
     }
     refreshDataset();
   };
+
   return (
     <>
       <div style={{ display: 'flex', width: '50%', justifyContent: 'space-between', alignItems: 'flex-end' }}>
@@ -114,10 +115,10 @@ export const GridButtonDiv = () => {
         </Button> */}
         <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>Grid 버튼</h4>
         <Button
-          variant="outlined"
+          variant="contained"
           style={{
-            backgroundColor: '#1EA2A4',
-            color: 'white',
+            // backgroundColor: '#1EA2A4',
+            // color: 'white',
             margin: '1rem 0 0.5rem 1rem',
           }}
           onClick={() => {
@@ -156,6 +157,7 @@ export const GridButtonDiv = () => {
               values: ['', 'Contained', 'Outlined'],
             }}
           ></AgGridColumn>
+
           <AgGridColumn headerName="class" field="compClass"></AgGridColumn>
           <AgGridColumn headerName="Id" field="compId"></AgGridColumn>
         </AgGridReact>

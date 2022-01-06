@@ -109,10 +109,10 @@ export const SearchButtonDiv = () => {
         </Button> */}
         <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 버튼</h4>
         <Button
-          variant="outlined"
+          variant="contained"
           style={{
-            backgroundColor: '#1EA2A4',
-            color: 'white',
+            // backgroundColor: '#1EA2A4',
+            // color: 'white',
             margin: '1rem 0 0.5rem 1rem',
           }}
           onClick={() => {
