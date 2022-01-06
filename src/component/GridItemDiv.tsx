@@ -32,10 +32,7 @@ export const GridItemDiv = () => {
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
   const rowDD = rowData;
-  // const defaultClass = [
-  //   { defType: 'Contained', clName: 'inquBtn' },
-  //   { defType: 'Outlined', clName: 'comBtn' },
-  // ];
+  const defaultClass = [{ dataType: 'numeric', clName: 'auiRight' }];
   const onGridReady = (params) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
@@ -67,16 +64,16 @@ export const GridItemDiv = () => {
   };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
     // //console.log('Data', data);
-    // if (data.type) {
-    //   //   if (!data.compClass) {
-    //   //console.log('TTy', data.type);
-    //   const defValue = defaultClass.find((defRow) => {
-    //     return defRow.defType === data.type;
-    //   });
-    //   //console.log('defValue', defValue.clName);
-    //   rowNode.setData({ ...data, compClass: defValue.clName });
-    //   //}
-    // }
+    if (data.dataType) {
+      //   if (!data.compClass) {
+      //console.log('TTy', data.type);
+      const defValue = defaultClass.find((defRow) => {
+        return defRow.dataType === data.dataType;
+      });
+      //console.log('defValue', defValue.clName);
+      rowNode.setData({ ...data, style: defValue ? defValue.clName : null });
+      //}
+    }
     refreshDataset();
   };
   const onRowDragMove = (event: RowDragEvent) => {
