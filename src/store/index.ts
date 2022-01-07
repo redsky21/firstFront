@@ -1,4 +1,5 @@
-import myStore from "./MyStore";
+import myStore from './MyStore';
+import pubStore from './PubStore';
 
-const store = {myStore };
+const store = { myStore, pubStore };
 export default store;

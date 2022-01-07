@@ -160,6 +160,29 @@ export const GridButtonDiv = () => {
 
           <AgGridColumn headerName="class" field="compClass"></AgGridColumn>
           <AgGridColumn headerName="Id" field="compId"></AgGridColumn>
+          <AgGridColumn
+            headerName="삭제"
+            field="aa"
+            resizable={true}
+            cellRendererFramework={(params: any) => {
+              return (
+                <div>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    onClick={(e) => {
+                      console.log('params', params);
+                      console.log('params.node', params.node);
+                      gridApi.applyTransaction({ remove: [params.data] });
+                    }}
+                  >
+                    삭제
+                  </Button>
+                </div>
+              );
+            }}
+          ></AgGridColumn>
         </AgGridReact>
       </div>
     </>

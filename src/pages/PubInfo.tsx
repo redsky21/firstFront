@@ -12,7 +12,7 @@ const PubInfo = () => {
   return (
     <div>
       <ButtonDiv />
-      <SearchDiv />
+      <SearchDiv></SearchDiv>
       <SearchButtonDiv />
       <GridButtonDiv />
       <GridItemDiv />

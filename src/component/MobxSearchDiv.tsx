@@ -5,17 +5,26 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 // import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
 // import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-import { HeaderGridDataset, HiState, ISearchHeaderGrid } from 'src/states/EggStore';
-import { useRecoilState } from 'recoil';
+import { ISearchHeaderGrid } from 'src/states/EggStore';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
+import store from 'src/store';
+
+import { runInAction } from 'mobx';
+
+import useStores from 'src/store/useStores';
+import pubStore from 'src/store/PubStore';
+import { observer } from 'mobx-react-lite';
 
 const rowData2 = [{}] as ISearchHeaderGrid[];
 
 //console.log('rowData2:::', rowData2);
-export const SearchDiv = () => {
-  const [headerGridDataset, setHeaderGridDataset] = useRecoilState(HeaderGridDataset);
+export const MobxSearchDiv = observer(() => {
+  const publishStore = pubStore;
+  // const { publishStore } = useStores();
+
+  const headerGridDataset = publishStore.headerGridDataset;
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
@@ -34,29 +43,25 @@ export const SearchDiv = () => {
   };
 
   useEffect(() => {
-    rowData2.slice(0, rowData2.length);
-  }, []);
+    if (gridApi) gridApi.refreshCells();
+  }, [headerGridDataset]);
 
   const addSearchGridRow = () => {
-    const newRow: ISearchHeaderGrid[] = [{}];
-    //console.log('rowData2:::', rowData2);
-    // rowData2.push(newRow);
+    // //console.log('rowData2:::', rowData2);
+    // // rowData2.push(newRow);
 
-    gridApi.applyTransaction({ add: newRow });
+    // gridApi.applyTransaction({ add: newRow });
+    runInAction(() => {
+      const newRow: ISearchHeaderGrid = {};
+      publishStore.headerGridDataset.push(newRow);
+      console.log('headerGridDataset', publishStore.headerGridDataset);
+    });
   };
+  console.log('headerGridDataset', publishStore.headerGridDataset);
   const getRowNodeId = (data) => {
     return data.id;
   };
 
-  const getRowData = () => {
-    const rowData3 = [];
-    gridApi.forEachNode((node) => {
-      rowData3.push(node.data);
-    });
-    //console.log('Row Data:');
-    //console.log(rowData3);
-    setHeaderGridDataset(rowData3);
-  };
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
     //console.log('Data', data);
     if (data.type) {
@@ -69,7 +74,7 @@ export const SearchDiv = () => {
       rowNode.setData({ ...data, compClass: defValue.clName });
       //}
     }
-    refreshDataset();
+    console.log('publishStore.headerButtonGridDataset::', publishStore.headerButtonGridDataset);
   };
   const onRowDragMove = (event: RowDragEvent) => {
     const updateRows = [];
@@ -90,7 +95,7 @@ export const SearchDiv = () => {
       const atomLine = Object.assign({}, node.data);
       updateRows.push(atomLine);
     });
-    setHeaderGridDataset(updateRows);
+    // setHeaderGridDataset(updateRows);
   };
 
   return (
@@ -126,9 +131,9 @@ export const SearchDiv = () => {
       </div>
       <div className="ag-theme-alpine" style={{ height: '20rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
         <AgGridReact
-          rowData={rowData2}
+          rowData={publishStore.headerGridDataset}
           onGridReady={onGridReady}
-          reactUi={true}
+          // reactUi={true}
           defaultColDef={{
             flex: 1,
             minWidth: 100,
@@ -163,31 +168,8 @@ export const SearchDiv = () => {
           ></AgGridColumn>
           <AgGridColumn headerName="class" field="compClass" resizable={true}></AgGridColumn>
           <AgGridColumn headerName="Id" field="compId" resizable={true}></AgGridColumn>
-          <AgGridColumn
-            headerName="삭제"
-            field="aa"
-            resizable={true}
-            cellRendererFramework={(params: any) => {
-              return (
-                <div>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    size="small"
-                    onClick={(e) => {
-                      console.log('params', params);
-                      console.log('params.node', params.node);
-                      gridApi.applyTransaction({ remove: [params.data] });
-                    }}
-                  >
-                    삭제
-                  </Button>
-                </div>
-              );
-            }}
-          ></AgGridColumn>
         </AgGridReact>
       </div>
     </>
   );
-};
+});
