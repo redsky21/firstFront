@@ -157,7 +157,7 @@ export const SearchDiv = () => {
             field="type"
             cellEditor="agSelectCellEditor"
             cellEditorParams={{
-              values: ['', 'DatePicker', 'Select', 'Radio', 'Input', 'Checkbox', 'Button'],
+              values: ['', 'DatePicker', 'Select', 'Radio', 'TextField', 'Checkbox', 'Button'],
             }}
             resizable={true}
           ></AgGridColumn>
