@@ -13,17 +13,16 @@ import store from 'src/store';
 
 import { runInAction } from 'mobx';
 
-import pubStore from 'src/store/PubStore';
 import { observer } from 'mobx-react-lite';
 
 const rowData2 = [{}] as ISearchHeaderGrid[];
 
 //console.log('rowData2:::', rowData2);
 export const MobxSearchDiv = observer(() => {
-  const publishStore = pubStore;
-  // const { publishStore } = useStores();
+  const { pubStore } = store;
+  // const { pubStore } = useStores();
 
-  const headerGridDataset = [...publishStore.headerGridDataset];
+  const headerGridDataset = [...pubStore.headerGridDataset];
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
@@ -52,11 +51,11 @@ export const MobxSearchDiv = observer(() => {
     // gridApi.applyTransaction({ add: newRow });
     runInAction(() => {
       const newRow: ISearchHeaderGrid = {};
-      publishStore.headerGridDataset.push(newRow);
-      console.log('headerGridDataset', publishStore.headerGridDataset);
+      pubStore.headerGridDataset.push(newRow);
     });
+    console.log('headerGridDataset', pubStore.headerGridDataset);
   };
-  console.log('headerGridDataset', publishStore.headerGridDataset);
+  console.log('headerGridDataset', pubStore.headerGridDataset);
   const getRowNodeId = (data) => {
     return data.id;
   };
@@ -73,7 +72,7 @@ export const MobxSearchDiv = observer(() => {
       rowNode.setData({ ...data, compClass: defValue.clName });
       //}
     }
-    console.log('publishStore.headerButtonGridDataset::', publishStore.headerGridDataset);
+    console.log('pubStore.headerButtonGridDataset::', pubStore.headerGridDataset);
   };
   const onRowDragMove = (event: RowDragEvent) => {
     const updateRows = [];
