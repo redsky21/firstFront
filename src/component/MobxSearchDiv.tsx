@@ -15,7 +15,7 @@ import { runInAction } from 'mobx';
 
 import useStores from 'src/store/useStores';
 import pubStore from 'src/store/PubStore';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 
 const rowData2 = [{}] as ISearchHeaderGrid[];
 
@@ -24,7 +24,7 @@ export const MobxSearchDiv = observer(() => {
   const publishStore = pubStore;
   // const { publishStore } = useStores();
 
-  const headerGridDataset = publishStore.headerGridDataset;
+  const headerGridDataset = [...publishStore.headerGridDataset];
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
   const [rowData, setRowData] = useState(null);
@@ -74,7 +74,7 @@ export const MobxSearchDiv = observer(() => {
       rowNode.setData({ ...data, compClass: defValue.clName });
       //}
     }
-    console.log('publishStore.headerButtonGridDataset::', publishStore.headerButtonGridDataset);
+    console.log('publishStore.headerButtonGridDataset::', publishStore.headerGridDataset);
   };
   const onRowDragMove = (event: RowDragEvent) => {
     const updateRows = [];
@@ -131,7 +131,7 @@ export const MobxSearchDiv = observer(() => {
       </div>
       <div className="ag-theme-alpine" style={{ height: '20rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
         <AgGridReact
-          rowData={publishStore.headerGridDataset}
+          rowData={headerGridDataset}
           onGridReady={onGridReady}
           // reactUi={true}
           defaultColDef={{
