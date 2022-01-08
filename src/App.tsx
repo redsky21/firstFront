@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layout/Layout';
 import PubInfo from './pages/PubInfo';
 import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-import { observer } from 'mobx-react';
 
 function App() {
   return (

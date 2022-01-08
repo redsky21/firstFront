@@ -13,9 +13,8 @@ import store from 'src/store';
 
 import { runInAction } from 'mobx';
 
-import useStores from 'src/store/useStores';
 import pubStore from 'src/store/PubStore';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 
 const rowData2 = [{}] as ISearchHeaderGrid[];
 
