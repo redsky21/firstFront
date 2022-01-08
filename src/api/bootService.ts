@@ -7,7 +7,7 @@ export const checkHello = async (bodyData) => {
 };
 
 export const getHtmlInfo = async (bodyData) => {
-  const { data, headers } = await API.post('/generateHtml', JSON.stringify(bodyData));
+  const { data, headers } = await API.post('/api/generateHtml', JSON.stringify(bodyData));
   console.log('data::::', data);
   console.log('headers::::', headers);
   var blob = new Blob([data], { type: 'text/plain;charset=utf-8' });
