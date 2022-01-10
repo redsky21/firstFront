@@ -32,7 +32,9 @@ const pubStore = observable({
       agGridColDef.push(newCol);
       // this.testDatRow = {...this.testDatRow,{element.dataField:''}}
       if (element.dataField) {
-        this.testDataRow[element.dataField] = null;
+        this.testDataRow[element.dataField] = !this.testDataRow[element.dataField]
+          ? null
+          : !this.testDataRow[element.dataField];
       }
     });
     return agGridColDef;
