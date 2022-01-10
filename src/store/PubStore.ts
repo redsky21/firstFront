@@ -20,14 +20,20 @@ const pubStore = observable({
   get agGridCol(): ColDef[] {
     const agGridColDef: ColDef[] = [];
     this.testDatRow = {};
-    this.auGridDataset.forEach((element: IAuiGridColBaseProps) => {
+    this.auGridDataset.forEach((element: IAuiGridColBaseProps, index: number) => {
+      console.log('index', index);
+      if (index === 0) {
+        this.testDatRow = {};
+      }
       console.log('element', element);
       const newCol: ColDef = {};
       newCol.field = element.dataField;
       newCol.headerName = element.headerText;
       agGridColDef.push(newCol);
       // this.testDatRow = {...this.testDatRow,{element.dataField:''}}
-      this.testDataRow[element.dataField] = null;
+      if (element.dataField) {
+        this.testDataRow[element.dataField] = null;
+      }
     });
     return agGridColDef;
   },
