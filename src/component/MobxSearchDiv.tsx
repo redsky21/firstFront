@@ -10,25 +10,19 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
 import store from 'src/store';
-
+import { v4 as uuidv4 } from 'uuid';
 import { runInAction } from 'mobx';
 
-import useStores from 'src/store/useStores';
-import pubStore from 'src/store/PubStore';
 import { observer } from 'mobx-react-lite';
-
-const rowData2 = [{}] as ISearchHeaderGrid[];
 
 //console.log('rowData2:::', rowData2);
 export const MobxSearchDiv = observer(() => {
-  const publishStore = pubStore;
-  // const { publishStore } = useStores();
+  const { pubStore } = store;
+  // const { pubStore } = useStores();
 
-  const headerGridDataset = publishStore.headerGridDataset;
+  const headerGridDataset = [...pubStore.headerGridDataset];
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
-  const [rowData, setRowData] = useState(null);
-  const rowDD = rowData;
   const defaultClass = [
     { defType: 'DatePicker', clName: 'dateWrap' },
     { defType: 'Select', clName: 'sel mr7' },
@@ -42,84 +36,52 @@ export const MobxSearchDiv = observer(() => {
     setGridColumnApi(params.columnApi);
   };
 
-  useEffect(() => {
-    if (gridApi) gridApi.refreshCells();
-  }, [headerGridDataset]);
+  // useEffect(() => {
+  //   if (gridApi) gridApi.refreshCells();
+  // }, [headerGridDataset]);
 
   const addSearchGridRow = () => {
-    // //console.log('rowData2:::', rowData2);
-    // // rowData2.push(newRow);
-
-    // gridApi.applyTransaction({ add: newRow });
     runInAction(() => {
-      const newRow: ISearchHeaderGrid = {};
-      publishStore.headerGridDataset.push(newRow);
-      console.log('headerGridDataset', publishStore.headerGridDataset);
+      const newRow: ISearchHeaderGrid = { rowId: uuidv4() };
+      pubStore.headerGridDataset.push(newRow);
     });
+    console.log('headerGridDataset', pubStore.headerGridDataset);
   };
-  console.log('headerGridDataset', publishStore.headerGridDataset);
-  const getRowNodeId = (data) => {
-    return data.id;
-  };
+  // console.log('headerGridDataset', pubStore.headerGridDataset);
 
-  const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    //console.log('Data', data);
-    if (data.type) {
-      //   if (!data.compClass) {
-      //console.log('TTy', data.type);
+  const onCellValueChanged = ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
+    console.log('colDef', colDef);
+    console.log('data', data);
+    if (data.type && colDef && colDef.field === 'type') {
       const defValue = defaultClass.find((defRow) => {
         return defRow.defType === data.type;
       });
-      //console.log('defValue', defValue.clName);
-      rowNode.setData({ ...data, compClass: defValue.clName });
-      //}
+      const gridRow = pubStore.headerGridDataset.find((row) => {
+        return row.rowId === data.rowId;
+      });
+      if (defValue && defValue.clName) gridRow.compClass = defValue.clName;
+      gridApi.refreshCells();
+      console.log('headerGridDataset', headerGridDataset);
     }
-    console.log('publishStore.headerButtonGridDataset::', publishStore.headerButtonGridDataset);
-  };
-  const onRowDragMove = (event: RowDragEvent) => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      updateRows.push(node.data);
-    });
-    gridApi.applyTransaction({ update: updateRows });
-    refreshDataset();
   };
 
-  const refreshDataset = () => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      const atomLine = Object.assign({}, node.data);
-      updateRows.push(atomLine);
+  const onRowDragMove = (event: RowDragEvent) => {
+    runInAction(() => {
+      pubStore.headerGridDataset.length = 0;
+      // gridApi.forEachNode((node, index) => {
+      //   pubStore.headerButtonGridDataset.push(node.data);
+      // });
+      pubStore.syncDataset('headerGridDataset', gridApi);
     });
-    // setHeaderGridDataset(updateRows);
   };
 
   return (
     <>
       <div style={{ display: 'flex', width: '50%', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-        {/* <Button
-          color="secondary"
-          style={{
-            backgroundColor: '#A55500',
-            color: 'rgb(255,255,255,0.9)',
-            margin: '1rem 0 0.5rem 1rem',
-          }}
-          onClick={() => {
-            getRowData();
-          }}
-        >
-          파일 생성
-        </Button> */}
         <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 항목</h4>
         <Button
           variant="contained"
           style={{
-            // backgroundColor: '#1EA2A4',
-            // color: 'white',
             margin: '1rem 0 0.5rem 1rem',
           }}
           onClick={() => {
@@ -131,9 +93,9 @@ export const MobxSearchDiv = observer(() => {
       </div>
       <div className="ag-theme-alpine" style={{ height: '20rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
         <AgGridReact
-          rowData={publishStore.headerGridDataset}
+          rowData={headerGridDataset}
           onGridReady={onGridReady}
-          // reactUi={true}
+          reactUi={true}
           defaultColDef={{
             flex: 1,
             minWidth: 100,
@@ -168,6 +130,30 @@ export const MobxSearchDiv = observer(() => {
           ></AgGridColumn>
           <AgGridColumn headerName="class" field="compClass" resizable={true}></AgGridColumn>
           <AgGridColumn headerName="Id" field="compId" resizable={true}></AgGridColumn>
+          <AgGridColumn
+            headerName="삭제"
+            field="aa"
+            resizable={true}
+            cellRendererFramework={(params: any) => {
+              return (
+                <div>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    onClick={(e) => {
+                      console.log('params', params);
+                      console.log('params.node', params.node);
+                      gridApi.applyTransaction({ remove: [params.data] });
+                      pubStore.syncDataset('headerGridDataset', gridApi);
+                    }}
+                  >
+                    삭제
+                  </Button>
+                </div>
+              );
+            }}
+          ></AgGridColumn>
         </AgGridReact>
       </div>
     </>

@@ -1,3 +1,4 @@
+import { RowNode, StartEditingCellParams, GridApi, ColDef } from 'ag-grid-community';
 import { observable } from 'mobx';
 import { IAuiGridColBaseProps, ISearchHeaderGrid } from 'src/states/EggStore';
 
@@ -6,5 +7,52 @@ const pubStore = observable({
   headerGridDataset: [] as ISearchHeaderGrid[],
   headerButtonGridDataset: [] as ISearchHeaderGrid[],
   gridButtonGridDataset: [] as ISearchHeaderGrid[],
+  gridTestDataset: [] as any[],
+  testDataRow: {},
+  num: 0,
+  increase() {
+    this.num = 0;
+  },
+  get auGridString(): string {
+    const returnVal = JSON.stringify(this.auGridDataset);
+    console.log('returnVal', returnVal);
+    return returnVal;
+  },
+  get agGridCol(): ColDef[] {
+    const agGridColDef: ColDef[] = [];
+    this.testDatRow = {};
+    this.auGridDataset.forEach((element: IAuiGridColBaseProps, index: number) => {
+      console.log('index', index);
+      if (index === 0) {
+        this.testDatRow = {};
+      }
+      console.log('element', element);
+      const newCol: ColDef = {};
+      newCol.field = element.dataField;
+      newCol.headerName = element.headerText;
+      if (element.dataType && element.dataType === 'numeric') {
+        newCol.type = 'numericColumn';
+        newCol.cellEditor = 'numericEditor';
+      }
+
+      agGridColDef.push(newCol);
+      // this.testDatRow = {...this.testDatRow,{element.dataField:''}}
+      if (element.dataField) {
+        this.testDataRow[element.dataField] = !this.testDataRow[element.dataField]
+          ? null
+          : !this.testDataRow[element.dataField];
+      }
+    });
+    return agGridColDef;
+  },
+  syncDataset(datasetName: string, gridApi: GridApi) {
+    // console.log(this[datasetName]);
+    if (this[datasetName] && gridApi) {
+      this[datasetName].length = 0;
+      gridApi.forEachNode((node, index) => {
+        this[datasetName].push(node.data);
+      });
+    }
+  },
 });
 export default pubStore;

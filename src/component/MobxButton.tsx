@@ -9,6 +9,7 @@ export const MobxButton = observer(() => {
   const headerGridDataset = pubStore.headerGridDataset;
   const headerButtonGridDataset = pubStore.headerButtonGridDataset;
   const gridButtonGridDataset = pubStore.gridButtonGridDataset;
+  const gridTestDataset = pubStore.gridTestDataset;
 
   return (
     <div>
@@ -29,6 +30,7 @@ export const MobxButton = observer(() => {
             searchButtonList: headerButtonGridDataset,
             gridButtonList: gridButtonGridDataset,
             gridItemList: auGridDataset,
+            testDataList: gridTestDataset,
           };
           getHtmlInfo(paramData);
         }}

@@ -1,32 +1,23 @@
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-// import 'ag-grid-community/dist/styles/ag-theme-balham-dark.css';
-// import 'ag-grid-community/dist/styles/ag-theme-alpine-dark.css';
-// import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
-import {
-  GridButtonGridDataset,
-  HeaderButtonGridDataset,
-  HeaderGridDataset,
-  HiState,
-  ISearchHeaderGrid,
-} from 'src/states/EggStore';
-import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
+import { observer } from 'mobx-react-lite';
+import { ISearchHeaderGrid } from 'src/states/EggStore';
+import store from 'src/store';
+import { runInAction } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
+export const MobxSearchButtonDiv = observer(() => {
+  const { pubStore } = store;
 
-const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
+  const headerButtonGridDataset = [...pubStore.headerButtonGridDataset];
 
-//console.log('rowData2:::', rowData2);
-export const GridButtonDiv = () => {
-  const [gridButtonGridDataset, setGridButtonGridDataset] = useRecoilState(GridButtonGridDataset);
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
-  const [rowData, setRowData] = useState(null);
-  const rowDD = rowData;
+
   const defaultClass = [
     { defType: 'Contained', clName: 'inquBtn' },
     { defType: 'Outlined', clName: 'comBtn' },
@@ -34,74 +25,43 @@ export const GridButtonDiv = () => {
   const onGridReady = (params) => {
     setGridApi(params.api);
     setGridColumnApi(params.columnApi);
-    params.api.sizeColumnsToFit();
   };
 
   useEffect(() => {
-    rowData2.slice(0, rowData2.length);
+    // rowData2.slice(0, rowData2.length);
+    pubStore.headerButtonGridDataset.length = 0;
   }, []);
 
   const addSearchGridRow = () => {
-    const newRow: ISearchHeaderGrid[] = [
-      {
-        rowId: uuidv4(),
-        type: 'Contained',
-        compClass: 'inquBtn',
-      },
-    ];
-    //console.log('rowData2:::', rowData2);
-    // rowData2.push(newRow);
-
-    gridApi.applyTransaction({ add: newRow });
-  };
-  const getRowNodeId = (data) => {
-    return data.id;
-  };
-
-  const getRowData = () => {
-    const rowData3 = [];
-    gridApi.forEachNode((node) => {
-      rowData3.push(node.data);
+    runInAction(() => {
+      const newRow: ISearchHeaderGrid = { rowId: uuidv4(), type: 'Contained', compClass: 'inquBtn' };
+      pubStore.headerButtonGridDataset.push(newRow);
     });
-    //console.log('Row Data:');
-    //console.log(rowData3);
-    setGridButtonGridDataset(rowData3);
-  };
-  const onRowDragMove = (event: RowDragEvent) => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      updateRows.push(node.data);
-    });
-    gridApi.applyTransaction({ update: updateRows });
-    refreshDataset();
   };
 
-  const refreshDataset = () => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      const atomLine = Object.assign({}, node.data);
-      updateRows.push(atomLine);
-    });
-    setGridButtonGridDataset(updateRows);
-  };
-
-  const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    //console.log('Data', data);
-    if (data.type) {
-      //   if (!data.compClass) {
-      //console.log('TTy', data.type);
+  const onCellValueChanged = ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
+    console.log('colDef', colDef);
+    if (data.type && colDef && colDef.field === 'type') {
       const defValue = defaultClass.find((defRow) => {
         return defRow.defType === data.type;
       });
-      //console.log('defValue', defValue.clName);
-      rowNode.setData({ ...data, compClass: defValue.clName });
-      //}
+      const gridRow = pubStore.headerButtonGridDataset.find((row) => {
+        return row.rowId === data.rowId;
+      });
+      if (defValue && defValue.clName) gridRow.compClass = defValue.clName;
+      gridApi.refreshCells();
+      console.log('headerButtonGridDataset', headerButtonGridDataset);
     }
-    refreshDataset();
+  };
+
+  const onRowDragMove = (event: RowDragEvent) => {
+    runInAction(() => {
+      pubStore.headerButtonGridDataset.length = 0;
+      // gridApi.forEachNode((node, index) => {
+      //   pubStore.headerButtonGridDataset.push(node.data);
+      // });
+      pubStore.syncDataset('headerButtonGridDataset', gridApi);
+    });
   };
 
   return (
@@ -120,7 +80,7 @@ export const GridButtonDiv = () => {
         >
           파일 생성
         </Button> */}
-        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>Grid 버튼</h4>
+        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 버튼</h4>
         <Button
           variant="contained"
           style={{
@@ -137,7 +97,7 @@ export const GridButtonDiv = () => {
       </div>
       <div className="ag-theme-alpine" style={{ height: '15rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
         <AgGridReact
-          rowData={rowData2}
+          rowData={headerButtonGridDataset}
           onGridReady={onGridReady}
           reactUi={true}
           defaultColDef={{
@@ -150,12 +110,19 @@ export const GridButtonDiv = () => {
           rowDragManaged={true}
           suppressMoveWhenRowDragging={true}
           animateRows={true}
+          //onRowDragMove={onRowDragMove}
           onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
         >
-          <AgGridColumn headerName="" rowDrag={true} maxWidth={50} editable={false}></AgGridColumn>
-          <AgGridColumn headerName="Label" field="label"></AgGridColumn>
-          <AgGridColumn headerName="Name" field="name"></AgGridColumn>
+          <AgGridColumn
+            headerName=""
+            rowDrag={true}
+            maxWidth={50}
+            editable={false}
+            resizable={true}
+          ></AgGridColumn>
+          <AgGridColumn headerName="Label" field="label" resizable={true}></AgGridColumn>
+          <AgGridColumn headerName="Name" field="name" resizable={true}></AgGridColumn>
           <AgGridColumn
             headerName="Variant"
             field="type"
@@ -163,10 +130,10 @@ export const GridButtonDiv = () => {
             cellEditorParams={{
               values: ['', 'Contained', 'Outlined'],
             }}
+            resizable={true}
           ></AgGridColumn>
-
-          <AgGridColumn headerName="class" field="compClass"></AgGridColumn>
-          <AgGridColumn headerName="Id" field="compId"></AgGridColumn>
+          <AgGridColumn headerName="class" field="compClass" resizable={true}></AgGridColumn>
+          <AgGridColumn headerName="Id" field="compId" resizable={true}></AgGridColumn>
           <AgGridColumn
             headerName="삭제"
             field="aa"
@@ -182,6 +149,7 @@ export const GridButtonDiv = () => {
                       console.log('params', params);
                       console.log('params.node', params.node);
                       gridApi.applyTransaction({ remove: [params.data] });
+                      pubStore.syncDataset('headerButtonGridDataset', gridApi);
                     }}
                   >
                     삭제
@@ -194,4 +162,4 @@ export const GridButtonDiv = () => {
       </div>
     </>
   );
-};
+});

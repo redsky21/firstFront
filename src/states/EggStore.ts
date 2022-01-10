@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 
 export interface ISearchHeaderGrid {
+  rowId?: string;
   sortSeq?: number;
   label?: string;
   name?: string;
@@ -10,6 +11,7 @@ export interface ISearchHeaderGrid {
 }
 
 export interface IAuiGridColBaseProps {
+  rowId?: string;
   dataField?: string;
   headerText?: string;
   style?: string;
