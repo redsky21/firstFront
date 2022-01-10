@@ -105,7 +105,7 @@ export const MobxGridTestDataDiv = observer(() => {
         >
           파일 생성
         </Button> */}
-        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>Grid 버튼</h4>
+        <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>Grid Data</h4>
         <Button
           variant="contained"
           style={{
@@ -117,7 +117,7 @@ export const MobxGridTestDataDiv = observer(() => {
             addSearchGridRow();
           }}
         >
-          버튼 추가
+          Data 추가
         </Button>
       </div>
       <div className="ag-theme-alpine" style={{ height: '15rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>

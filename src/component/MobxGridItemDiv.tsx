@@ -282,8 +282,8 @@ export const MobxGridItemDiv = observer(() => {
             refData={carMappings}
           /> */}
         </AgGridReact>
-        {JSON.stringify(pubStore.agGridCol)}
-        {JSON.stringify(pubStore.testDataRow)}
+        {/* {JSON.stringify(pubStore.agGridCol)}
+        {JSON.stringify(pubStore.testDataRow)} */}
       </div>
     </>
   );
