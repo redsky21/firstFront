@@ -15,8 +15,6 @@ import { runInAction } from 'mobx';
 
 import { observer } from 'mobx-react-lite';
 
-const rowData2 = [{}] as ISearchHeaderGrid[];
-
 //console.log('rowData2:::', rowData2);
 export const MobxSearchDiv = observer(() => {
   const { pubStore } = store;
@@ -25,8 +23,6 @@ export const MobxSearchDiv = observer(() => {
   const headerGridDataset = [...pubStore.headerGridDataset];
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
-  const [rowData, setRowData] = useState(null);
-  const rowDD = rowData;
   const defaultClass = [
     { defType: 'DatePicker', clName: 'dateWrap' },
     { defType: 'Select', clName: 'sel mr7' },
@@ -45,10 +41,6 @@ export const MobxSearchDiv = observer(() => {
   }, [headerGridDataset]);
 
   const addSearchGridRow = () => {
-    // //console.log('rowData2:::', rowData2);
-    // // rowData2.push(newRow);
-
-    // gridApi.applyTransaction({ add: newRow });
     runInAction(() => {
       const newRow: ISearchHeaderGrid = {};
       pubStore.headerGridDataset.push(newRow);
@@ -56,68 +48,34 @@ export const MobxSearchDiv = observer(() => {
     console.log('headerGridDataset', pubStore.headerGridDataset);
   };
   console.log('headerGridDataset', pubStore.headerGridDataset);
-  const getRowNodeId = (data) => {
-    return data.id;
-  };
 
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
     //console.log('Data', data);
     if (data.type) {
-      //   if (!data.compClass) {
-      //console.log('TTy', data.type);
       const defValue = defaultClass.find((defRow) => {
         return defRow.defType === data.type;
       });
-      //console.log('defValue', defValue.clName);
       rowNode.setData({ ...data, compClass: defValue.clName });
-      //}
     }
-    console.log('pubStore.headerButtonGridDataset::', pubStore.headerGridDataset);
+    // console.log('pubStore.headerButtonGridDataset::', pubStore.headerGridDataset);
   };
-  const onRowDragMove = (event: RowDragEvent) => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      updateRows.push(node.data);
-    });
-    gridApi.applyTransaction({ update: updateRows });
-    refreshDataset();
-  };
-
-  const refreshDataset = () => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      const atomLine = Object.assign({}, node.data);
-      updateRows.push(atomLine);
-    });
-    // setHeaderGridDataset(updateRows);
-  };
+  // const onRowDragMove = (event: RowDragEvent) => {
+  //   const updateRows = [];
+  //   gridApi.forEachNode((node, index) => {
+  //     //console.log('node.data:::', node.data);
+  //     node.data.sortSeq = index;
+  //     updateRows.push(node.data);
+  //   });
+  //   gridApi.applyTransaction({ update: updateRows });
+  // };
 
   return (
     <>
       <div style={{ display: 'flex', width: '50%', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-        {/* <Button
-          color="secondary"
-          style={{
-            backgroundColor: '#A55500',
-            color: 'rgb(255,255,255,0.9)',
-            margin: '1rem 0 0.5rem 1rem',
-          }}
-          onClick={() => {
-            getRowData();
-          }}
-        >
-          파일 생성
-        </Button> */}
         <h4 style={{ margin: '1rem 0 0.5rem 1rem' }}>조회영역 항목</h4>
         <Button
           variant="contained"
           style={{
-            // backgroundColor: '#1EA2A4',
-            // color: 'white',
             margin: '1rem 0 0.5rem 1rem',
           }}
           onClick={() => {
@@ -131,7 +89,7 @@ export const MobxSearchDiv = observer(() => {
         <AgGridReact
           rowData={headerGridDataset}
           onGridReady={onGridReady}
-          // reactUi={true}
+          reactUi={true}
           defaultColDef={{
             flex: 1,
             minWidth: 100,
@@ -143,7 +101,7 @@ export const MobxSearchDiv = observer(() => {
           suppressMoveWhenRowDragging={true}
           animateRows={true}
           //onRowDragMove={onRowDragMove}
-          onRowDragEnd={onRowDragMove}
+          // onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
         >
           <AgGridColumn
