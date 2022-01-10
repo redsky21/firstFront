@@ -7,6 +7,7 @@ const pubStore = observable({
   headerGridDataset: [] as ISearchHeaderGrid[],
   headerButtonGridDataset: [] as ISearchHeaderGrid[],
   gridButtonGridDataset: [] as ISearchHeaderGrid[],
+  gridTestDataset: [] as any[],
   testDataRow: {},
   num: 0,
   increase() {
@@ -29,6 +30,11 @@ const pubStore = observable({
       const newCol: ColDef = {};
       newCol.field = element.dataField;
       newCol.headerName = element.headerText;
+      if (element.dataType && element.dataType === 'numeric') {
+        newCol.type = 'numericColumn';
+        newCol.cellEditor = 'numericEditor';
+      }
+
       agGridColDef.push(newCol);
       // this.testDatRow = {...this.testDatRow,{element.dataField:''}}
       if (element.dataField) {

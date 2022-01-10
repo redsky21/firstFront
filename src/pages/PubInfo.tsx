@@ -6,6 +6,7 @@ import { GridItemDiv } from 'src/component/GridItemDiv';
 import { MobxButton } from 'src/component/MobxButton';
 import { MobxGridButtonDiv } from 'src/component/MobxGridButtonDiv';
 import { MobxGridItemDiv } from 'src/component/MobxGridItemDiv';
+import { MobxGridTestDataDiv } from 'src/component/MobxGridTestDataDiv';
 import { MobxSearchButtonDiv } from 'src/component/MobxSearchButtonDiv';
 import { MobxSearchDiv } from 'src/component/MobxSearchDiv';
 
@@ -26,6 +27,7 @@ const PubInfo = () => {
       <MobxSearchButtonDiv></MobxSearchButtonDiv>
       <MobxGridButtonDiv></MobxGridButtonDiv>
       <MobxGridItemDiv></MobxGridItemDiv>
+      <MobxGridTestDataDiv></MobxGridTestDataDiv>
     </div>
   );
 };
