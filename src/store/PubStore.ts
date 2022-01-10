@@ -7,14 +7,29 @@ const pubStore = observable({
   headerGridDataset: [] as ISearchHeaderGrid[],
   headerButtonGridDataset: [] as ISearchHeaderGrid[],
   gridButtonGridDataset: [] as ISearchHeaderGrid[],
-  agGridColDef: [] as ColDef[],
+  testDataRow: {},
   num: 0,
   increase() {
     this.num = 0;
   },
+  get auGridString(): string {
+    const returnVal = JSON.stringify(this.auGridDataset);
+    console.log('returnVal', returnVal);
+    return returnVal;
+  },
   get agGridCol(): ColDef[] {
-    this.auGridDataset.map((auRow) => {});
-    return [];
+    const agGridColDef: ColDef[] = [];
+    this.testDatRow = {};
+    this.auGridDataset.forEach((element: IAuiGridColBaseProps) => {
+      console.log('element', element);
+      const newCol: ColDef = {};
+      newCol.field = element.dataField;
+      newCol.headerName = element.headerText;
+      agGridColDef.push(newCol);
+      // this.testDatRow = {...this.testDatRow,{element.dataField:''}}
+      this.testDataRow[element.dataField] = null;
+    });
+    return agGridColDef;
   },
   syncDataset(datasetName: string, gridApi: GridApi) {
     // console.log(this[datasetName]);
