@@ -59,7 +59,7 @@ export const MobxSearchDiv = observer(() => {
       const gridRow = pubStore.headerGridDataset.find((row) => {
         return row.rowId === data.rowId;
       });
-      gridRow.compClass = defValue.clName;
+      if (defValue && defValue.clName) gridRow.compClass = defValue.clName;
       gridApi.refreshCells();
       console.log('headerGridDataset', headerGridDataset);
     }

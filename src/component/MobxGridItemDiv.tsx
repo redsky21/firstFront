@@ -15,9 +15,16 @@ import {
   RowDragEvent,
 } from 'ag-grid-community';
 import { IAuiGridColBaseProps } from 'src/states/EggStore';
+import { observer } from 'mobx-react-lite';
+import store from 'src/store';
+import { runInAction } from 'mobx';
+import { v4 as uuidv4 } from 'uuid';
 
-export const GridItemDiv = observer(() => {
-  const setAuGridDataset = useSetRecoilState(AuGridDataset);
+export const MobxGridItemDiv = observer(() => {
+  const { pubStore } = store;
+  // const { pubStore } = useStores();
+
+  const auGridDataset = [...pubStore.auGridDataset];
 
   const [gridApi, setGridApi] = useState<GridApi>(null);
   const [gridColumnApi, setGridColumnApi] = useState<ColumnApi>(null);
@@ -29,72 +36,68 @@ export const GridItemDiv = observer(() => {
     setGridColumnApi(params.columnApi);
   };
 
-  useEffect(() => {
-    rowData2.slice(0, rowData2.length);
-  }, []);
-
   const addSearchGridRow = () => {
-    const newRow: IAuiGridColBaseProps[] = [{ sumFlag: 'N' }];
     //console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
-
-    gridApi.applyTransaction({ add: newRow });
-  };
-  const getRowNodeId = (data) => {
-    return data.id;
-  };
-
-  const getRowData = () => {
-    const rowData3 = [];
-    gridApi.forEachNode((node) => {
-      rowData3.push(node.data);
+    runInAction(() => {
+      const newRow: IAuiGridColBaseProps = { rowId: uuidv4(), sumFlag: 'N' };
+      pubStore.auGridDataset.push(newRow);
     });
-    //console.log('Row Data:');
-    //console.log(rowData3);
-    setAuGridDataset(rowData3);
   };
-  const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    // //console.log('Data', data);
-    if (data.dataType) {
-      //   if (!data.compClass) {
-      //console.log('TTy', data.type);
+
+  const onCellValueChanged = ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
+    console.log('colDef', colDef);
+    console.log('data', data);
+    if (data.dataType && colDef && colDef.field === 'dataType') {
       const defValue = defaultClass.find((defRow) => {
         return defRow.dataType === data.dataType;
       });
-      //console.log('defValue', defValue.clName);
-      rowNode.setData({
-        ...data,
-        style: defValue ? defValue.clName : null,
-        sumFlag: data.dataType === 'numeric' ? 'Y' : 'N',
+      const gridRow = pubStore.auGridDataset.find((row) => {
+        return row.rowId === data.rowId;
       });
-      //}
+      if (defValue && defValue.clName) {
+        gridRow.style = defValue.clName;
+      } else {
+        gridRow.style = null;
+      }
+      if (data.dataType === 'numeric') {
+        gridRow.sumFlag = 'Y';
+        gridRow.formatString = '#,##0';
+      } else {
+        gridRow.sumFlag = 'N';
+        gridRow.formatString = null;
+      }
+      gridApi.refreshCells();
+      console.log('auGridDataset', auGridDataset);
     }
-    refreshDataset();
-  };
-  const onRowDragMove = (event: RowDragEvent) => {
-    const updateRows = [];
-    gridApi.forEachNode((node, index) => {
-      //console.log('node.data:::', node.data);
-      node.data.sortSeq = index;
-      updateRows.push(node.data);
-    });
-    gridApi.applyTransaction({ update: updateRows });
-    refreshDataset();
-  };
-  const refreshDataset = () => {
-    if (gridApi && gridApi.forEachNode) {
-      const updateRows = [];
-      gridApi.forEachNode((node, index) => {
-        //console.log('node.data:::', node.data);
-        // node.data.sortSeq = index;
-        const atomLine = Object.assign({}, { ...node.data, sortSeq: index });
-        updateRows.push(atomLine);
-      });
-      setAuGridDataset(updateRows);
-    }
-    // gridColumnApi.autoSizeAllColumns(false);
   };
 
+  // const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
+  //   // //console.log('Data', data);
+  //   if (data.dataType) {
+  //     //   if (!data.compClass) {
+  //     //console.log('TTy', data.type);
+  //     const defValue = defaultClass.find((defRow) => {
+  //       return defRow.dataType === data.dataType;
+  //     });
+  //     //console.log('defValue', defValue.clName);
+  //     rowNode.setData({
+  //       ...data,
+  //       style: defValue ? defValue.clName : null,
+  //       sumFlag: data.dataType === 'numeric' ? 'Y' : 'N',
+  //     });
+  //     //}
+  //   }
+  // };
+  const onRowDragMove = (event: RowDragEvent) => {
+    runInAction(() => {
+      pubStore.headerButtonGridDataset.length = 0;
+      // gridApi.forEachNode((node, index) => {
+      //   pubStore.headerButtonGridDataset.push(node.data);
+      // });
+      pubStore.syncDataset('auGridDataset', gridApi);
+    });
+  };
   // useEffect(() => {
   //   console.log('auGridDataset changed:::', auGridDataset);
   // }, [auGridDataset]);
@@ -181,7 +184,7 @@ export const GridItemDiv = observer(() => {
       </div>
       <div className="ag-theme-alpine" style={{ height: '15rem', width: '50%', margin: '0 0 0.5rem 1rem' }}>
         <AgGridReact
-          rowData={rowData2}
+          rowData={auGridDataset}
           onGridReady={onGridReady}
           reactUi={true}
           defaultColDef={{
@@ -262,6 +265,7 @@ export const GridItemDiv = observer(() => {
                       console.log('params', params);
                       console.log('params.node', params.node);
                       gridApi.applyTransaction({ remove: [params.data] });
+                      pubStore.syncDataset('auGridDataset', gridApi);
                     }}
                   >
                     삭제

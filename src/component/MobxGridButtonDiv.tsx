@@ -63,7 +63,7 @@ export const MobxGridButtonDiv = observer(() => {
       const gridRow = pubStore.gridButtonGridDataset.find((row) => {
         return row.rowId === data.rowId;
       });
-      gridRow.compClass = defValue.clName;
+      if (defValue && defValue.clName) gridRow.compClass = defValue.clName;
       gridApi.refreshCells();
       console.log('gridButtonGridDataset', gridButtonGridDataset);
     }
