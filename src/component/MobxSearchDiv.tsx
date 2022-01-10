@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
 import store from 'src/store';
-
+import { v4 as uuidv4 } from 'uuid';
 import { runInAction } from 'mobx';
 
 import { observer } from 'mobx-react-lite';
@@ -36,18 +36,18 @@ export const MobxSearchDiv = observer(() => {
     setGridColumnApi(params.columnApi);
   };
 
-  useEffect(() => {
-    if (gridApi) gridApi.refreshCells();
-  }, [headerGridDataset]);
+  // useEffect(() => {
+  //   if (gridApi) gridApi.refreshCells();
+  // }, [headerGridDataset]);
 
   const addSearchGridRow = () => {
     runInAction(() => {
-      const newRow: ISearchHeaderGrid = {};
+      const newRow: ISearchHeaderGrid = { rowId: uuidv4() };
       pubStore.headerGridDataset.push(newRow);
     });
     console.log('headerGridDataset', pubStore.headerGridDataset);
   };
-  console.log('headerGridDataset', pubStore.headerGridDataset);
+  // console.log('headerGridDataset', pubStore.headerGridDataset);
 
   const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
     //console.log('Data', data);
@@ -59,15 +59,15 @@ export const MobxSearchDiv = observer(() => {
     }
     // console.log('pubStore.headerButtonGridDataset::', pubStore.headerGridDataset);
   };
-  // const onRowDragMove = (event: RowDragEvent) => {
-  //   const updateRows = [];
-  //   gridApi.forEachNode((node, index) => {
-  //     //console.log('node.data:::', node.data);
-  //     node.data.sortSeq = index;
-  //     updateRows.push(node.data);
-  //   });
-  //   gridApi.applyTransaction({ update: updateRows });
-  // };
+  const onRowDragMove = (event: RowDragEvent) => {
+    runInAction(() => {
+      pubStore.headerGridDataset.length = 0;
+      // gridApi.forEachNode((node, index) => {
+      //   pubStore.headerButtonGridDataset.push(node.data);
+      // });
+      pubStore.syncDataset('headerGridDataset', gridApi);
+    });
+  };
 
   return (
     <>
@@ -101,7 +101,7 @@ export const MobxSearchDiv = observer(() => {
           suppressMoveWhenRowDragging={true}
           animateRows={true}
           //onRowDragMove={onRowDragMove}
-          // onRowDragEnd={onRowDragMove}
+          onRowDragEnd={onRowDragMove}
           stopEditingWhenCellsLoseFocus={true}
         >
           <AgGridColumn
@@ -124,6 +124,30 @@ export const MobxSearchDiv = observer(() => {
           ></AgGridColumn>
           <AgGridColumn headerName="class" field="compClass" resizable={true}></AgGridColumn>
           <AgGridColumn headerName="Id" field="compId" resizable={true}></AgGridColumn>
+          <AgGridColumn
+            headerName="삭제"
+            field="aa"
+            resizable={true}
+            cellRendererFramework={(params: any) => {
+              return (
+                <div>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    size="small"
+                    onClick={(e) => {
+                      console.log('params', params);
+                      console.log('params.node', params.node);
+                      gridApi.applyTransaction({ remove: [params.data] });
+                      pubStore.syncDataset('headerGridDataset', gridApi);
+                    }}
+                  >
+                    삭제
+                  </Button>
+                </div>
+              );
+            }}
+          ></AgGridColumn>
         </AgGridReact>
       </div>
     </>

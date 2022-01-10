@@ -16,6 +16,7 @@ import { useRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { CellValueChangedEvent, ColumnApi, GridApi, RowDragEvent } from 'ag-grid-community';
+import { v4 as uuidv4 } from 'uuid';
 
 const rowData2 = [{ type: 'Contained', compClass: 'inquBtn' }] as ISearchHeaderGrid[];
 
@@ -41,7 +42,13 @@ export const GridButtonDiv = () => {
   }, []);
 
   const addSearchGridRow = () => {
-    const newRow: ISearchHeaderGrid[] = [{ type: 'Contained', compClass: 'inquBtn' }];
+    const newRow: ISearchHeaderGrid[] = [
+      {
+        rowId: uuidv4(),
+        type: 'Contained',
+        compClass: 'inquBtn',
+      },
+    ];
     //console.log('rowData2:::', rowData2);
     // rowData2.push(newRow);
 

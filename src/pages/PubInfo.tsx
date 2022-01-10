@@ -3,6 +3,8 @@ import { atom, useRecoilState } from 'recoil';
 import { ButtonDiv } from 'src/component/ButtonDiv';
 import { GridButtonDiv } from 'src/component/GridButtonDiv';
 import { GridItemDiv } from 'src/component/GridItemDiv';
+import { MobxGridButtonDiv } from 'src/component/MobxGridButtonDiv';
+import { MobxSearchButtonDiv } from 'src/component/MobxSearchButtonDiv';
 import { MobxSearchDiv } from 'src/component/MobxSearchDiv';
 
 import { SearchButtonDiv } from 'src/component/SearchButtonDiv';
@@ -18,6 +20,8 @@ const PubInfo = () => {
       <GridButtonDiv />
       <GridItemDiv /> */}
       <MobxSearchDiv></MobxSearchDiv>
+      <MobxSearchButtonDiv></MobxSearchButtonDiv>
+      <MobxGridButtonDiv></MobxGridButtonDiv>
     </div>
   );
 };
