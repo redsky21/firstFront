@@ -53,17 +53,19 @@ export const MobxGridButtonDiv = observer(() => {
     });
   };
 
-  const onCellValueChanged = ({ node: rowNode, data }: CellValueChangedEvent) => {
-    //console.log('Data', data);
-    if (data.type) {
-      //   if (!data.compClass) {
-      //console.log('TTy', data.type);
+  const onCellValueChanged = ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
+    console.log('colDef', colDef);
+    console.log('data', data);
+    if (data.type && colDef && colDef.field === 'type') {
       const defValue = defaultClass.find((defRow) => {
         return defRow.defType === data.type;
       });
-      //console.log('defValue', defValue.clName);
-      rowNode.setData({ ...data, compClass: defValue.clName });
-      //}
+      const gridRow = pubStore.gridButtonGridDataset.find((row) => {
+        return row.rowId === data.rowId;
+      });
+      gridRow.compClass = defValue.clName;
+      gridApi.refreshCells();
+      console.log('gridButtonGridDataset', gridButtonGridDataset);
     }
   };
 
