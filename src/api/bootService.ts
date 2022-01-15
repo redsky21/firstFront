@@ -15,3 +15,9 @@ export const getHtmlInfo = async (bodyData) => {
 
   return data;
 };
+
+export const retrieveWord = async (bodyData) => {
+  const { data, headers } = await API.post('/api/retrieveWord', JSON.stringify(bodyData));
+  console.log('data::::', data);
+  return data;
+};

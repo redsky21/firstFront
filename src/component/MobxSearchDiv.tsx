@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { runInAction } from 'mobx';
 
 import { observer } from 'mobx-react-lite';
+import { retrieveWord } from 'src/api/bootService';
 
 //console.log('rowData2:::', rowData2);
 export const MobxSearchDiv = observer(() => {
@@ -49,7 +50,7 @@ export const MobxSearchDiv = observer(() => {
   };
   // console.log('headerGridDataset', pubStore.headerGridDataset);
 
-  const onCellValueChanged = ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
+  const onCellValueChanged = async ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
     console.log('colDef', colDef);
     console.log('data', data);
     if (data.type && colDef && colDef.field === 'type') {
@@ -62,6 +63,24 @@ export const MobxSearchDiv = observer(() => {
       if (defValue && defValue.clName) gridRow.compClass = defValue.clName;
       gridApi.refreshCells();
       console.log('headerGridDataset', headerGridDataset);
+    }
+    if (colDef && colDef.field === 'label') {
+      console.log(' data.label', data.label);
+      const body = { label: data.label };
+      const respData = await retrieveWord(body);
+      if (respData) {
+        const gridRow = pubStore.headerGridDataset.find((row) => {
+          return row.rowId === data.rowId;
+        });
+        // if (!data.name) {
+        gridRow.name = respData + '';
+        // }
+        // if (!data.compId) {
+        gridRow.compId = respData + '';
+        // }
+        gridApi.refreshCells();
+      }
+      console.log('resp_data:::', respData);
     }
   };
 

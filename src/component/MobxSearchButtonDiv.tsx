@@ -10,6 +10,7 @@ import { ISearchHeaderGrid } from 'src/states/EggStore';
 import store from 'src/store';
 import { runInAction } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
+import { retrieveWord } from 'src/api/bootService';
 export const MobxSearchButtonDiv = observer(() => {
   const { pubStore } = store;
 
@@ -39,7 +40,7 @@ export const MobxSearchButtonDiv = observer(() => {
     });
   };
 
-  const onCellValueChanged = ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
+  const onCellValueChanged = async ({ node: rowNode, data, colDef }: CellValueChangedEvent) => {
     console.log('colDef', colDef);
     if (data.type && colDef && colDef.field === 'type') {
       const defValue = defaultClass.find((defRow) => {
@@ -51,6 +52,24 @@ export const MobxSearchButtonDiv = observer(() => {
       if (defValue && defValue.clName) gridRow.compClass = defValue.clName;
       gridApi.refreshCells();
       console.log('headerButtonGridDataset', headerButtonGridDataset);
+    }
+    if (colDef && colDef.field === 'label') {
+      console.log(' data.label', data.label);
+      const body = { label: data.label };
+      const respData = await retrieveWord(body);
+      if (respData) {
+        const gridRow = pubStore.headerButtonGridDataset.find((row) => {
+          return row.rowId === data.rowId;
+        });
+        // if (!data.name) {
+        gridRow.name = respData + '';
+        // }
+        // if (!data.compId) {
+        gridRow.compId = respData + '';
+        // }
+        gridApi.refreshCells();
+      }
+      console.log('resp_data:::', respData);
     }
   };
 
